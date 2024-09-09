@@ -1,0 +1,15 @@
+.seller-section {
+    -fx-background-color: lightblue;
+    -fx-text-fill: black;
+    -fx-padding: 10;
+
+}
+
+/* Define the hover state of the button */
+.seller-section:hover {
+    -fx-background-color: darkblue;
+    -fx-text-fill: white;
+}
+.seller-section:hover Text {
+    -fx-text-fill: white;
+}
