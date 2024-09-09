@@ -113,7 +113,6 @@ public class SellingCategoryController {
                 break;
         }
 
-        // Further adjust based on condition
         switch (selectedCondition) {
             case "Heavily Used":
                 reductionFactor -= 0.3;
