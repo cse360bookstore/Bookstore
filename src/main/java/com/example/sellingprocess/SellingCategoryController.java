@@ -1,11 +1,18 @@
 package com.example.sellingprocess;
+import java.sql.SQLException;
+import java.util.List;
 
+import com.example.sellingprocess.datamodels.BookDAO;
+import com.example.sellingprocess.models.Book;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class SellingCategoryController {
+import javax.sql.DataSource;
 
+public class SellingCategoryController {
+    DataSource dataSource = SqlConnectionPoolFactory.createConnectionPool();
+    private BookDAO bookDAO = new BookDAO(dataSource);
     private String selectedValue = "";
     private String selectedCategory = "";
     private String selectedCondition = "";
@@ -131,7 +138,27 @@ public class SellingCategoryController {
         double offeredPrice = originalPrice * reductionFactor;
         offeredValueLabel.setText(String.format("$%.2f", offeredPrice));
     }
+    @FXML
+    public void listMyBook() throws SQLException {
+        Book myBook = new Book("default", "default", 0, 0);
+        myBook.setCategory(selectedCategory);
+        myBook.setCondition(selectedCondition);
+        myBook.setOriginalPrice(originalPrice);
+        myBook.setNewPrice(21);
+        List<Book> books =  bookDAO.getAllBooks();
+        System.out.println("Before Inserting");
+        for (Book book : books) {
+            System.out.println(book);
+        }
+        bookDAO.insertBook(myBook);
+        books =  bookDAO.getAllBooks();
+        System.out.println("After Inserting");
+        for (Book book : books) {
+            System.out.println(book);
+        }
 
+
+    }
 
 
 

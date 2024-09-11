@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sellingprocess.SellingCategoryController">
    <children>
       <AnchorPane prefHeight="570.0" prefWidth="1131.0">
@@ -99,7 +98,7 @@
                                           </Pane>
                                        </children>
                                     </Group>
-                                    <Group fx:id="englang51" styleClass="seller-section" stylesheets="@seller-view.css">
+                                    <Group fx:id="englang52" styleClass="seller-section" stylesheets="@seller-view.css">
                                        <children>
                                           <Pane onMouseClicked="#handleHeavyClick" prefHeight="200.0" prefWidth="200.0" styleClass="seller-section" stylesheets="@seller-view.css">
                                              <children>
@@ -130,6 +129,7 @@
                            <children>
                               <Label fx:id="categoryValueLabel1" alignment="CENTER" layoutX="278.0" layoutY="65.0" prefHeight="130.0" prefWidth="442.0" styleClass="seller-section-label" stylesheets="@seller-view.css" text="Based on the category, conditon, and original price, we can offer you" />
                               <Label fx:id="offeredValueLabel" alignment="CENTER" layoutX="278.0" layoutY="231.0" prefHeight="130.0" prefWidth="442.0" styleClass="seller-section-label" stylesheets="@seller-view.css" text="2131" />
+                              <Button layoutX="319.0" layoutY="385.0" mnemonicParsing="false" onAction="#listMyBook" text="List My Book" />
                            </children>
                         </AnchorPane>
                          </content>
