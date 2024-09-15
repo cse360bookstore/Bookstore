@@ -1,4 +1,4 @@
-package com.example.sellingprocess;
+package Bookstore;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,7 @@ import java.io.IOException;
 public class SellingCategory extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("SellingCategory.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(SellingCategory.class.getResource("/Bookstore/scenes/SellingProcess.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 1200);
         stage.setTitle("Selling Category");
         stage.setScene(scene);

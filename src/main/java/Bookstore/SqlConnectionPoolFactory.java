@@ -1,4 +1,4 @@
-package com.example.sellingprocess;
+package Bookstore;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

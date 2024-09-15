@@ -1,4 +1,4 @@
-package com.example.sellingprocess.models;
+package Bookstore.models;
 
 public class Book {
     private String category;

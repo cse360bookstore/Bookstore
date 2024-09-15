@@ -5,6 +5,9 @@ module com.example.sellingprocess {
     requires mysql.connector.j;
     requires com.zaxxer.hikari;
 
-    opens com.example.sellingprocess to javafx.fxml;
-    exports com.example.sellingprocess;
+    opens Bookstore to javafx.fxml;
+    exports Bookstore;
+    exports Bookstore.scenes to javafx.fxml;
+    opens Bookstore.scenes to javafx.fxml;
+    opens Bookstore.components to javafx.fxml;
 }
