@@ -1,12 +1,12 @@
 
-package com.example.sellingprocess.datamodels;
+package Bookstore.datamodels;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import com.example.sellingprocess.models.Book;
+import Bookstore.models.Book;
 
 import javax.sql.DataSource;
 

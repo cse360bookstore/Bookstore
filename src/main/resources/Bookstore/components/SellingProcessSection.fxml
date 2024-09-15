@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.text.Font?>
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" type="VBox" alignment="TOP_CENTER" xmlns:fx="http://javafx.com/fxml/1">
+    <Text fx:id="sectionTitle" fill="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Default Text">
+        <font>
+            <Font size="48.0" />
+        </font>
+    </Text>
+    <HBox fx:id="sectionContent" alignment="CENTER"/>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+</fx:root>

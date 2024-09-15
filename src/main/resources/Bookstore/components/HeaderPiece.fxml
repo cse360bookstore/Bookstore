@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: blue; -fx-background-radius: 5;" type="HBox" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+    <Text fx:id="headerText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Default Text">
+        <font>
+            <Font size="23.0" />
+        </font>
+    </Text>
+
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+</fx:root>
+
