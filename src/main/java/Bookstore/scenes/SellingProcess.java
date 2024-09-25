@@ -7,16 +7,22 @@ import Bookstore.components.ImgBox;
 import Bookstore.datamodels.BookDAO;
 import Bookstore.models.Book;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+import javax.smartcardio.CardTerminal;
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -35,9 +41,8 @@ public class SellingProcess implements Initializable {
     @FXML
     private Label offeredPriceLabel;
 
-
-    private String imgPrefix = "/Bookstore/images/";
-
+    private List<HeaderPiece> passedHeaderPieces = new ArrayList<>();
+    private final String imgPrefix = "/Bookstore/images/";
 
     @FXML
     private VBox contentArea;
@@ -54,33 +59,38 @@ public class SellingProcess implements Initializable {
     private double originalPrice = 0.0;
     private double offeredPrice = 0.0;
 
+    private HeaderPiece CategoryHeader = new HeaderPiece();
+    private HeaderPiece ConditionHeader = new HeaderPiece();
+    private HeaderPiece PriceHeader = new HeaderPiece();
+
+    private HeaderPiece ConfirmHeader = new HeaderPiece();
+
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        CategoryHeader.setColorType(HeaderPiece.ColorType.ACTIVE);
+        CategoryHeader.setMessage("Category");
 
-        var header = new HeaderPiece();
-        header.setColorType(HeaderPiece.ColorType.ACTIVE);
-        header.setMessage("Category");
-        var header2 = new HeaderPiece();
-        header2.setColorType(HeaderPiece.ColorType.INACTIVE);
-        header2.setMessage("Condition");
+        ConditionHeader.setColorType(HeaderPiece.ColorType.INACTIVE);
+        ConditionHeader.setMessage("Condition");
 
-        var header3 = new HeaderPiece();
-        header3.setColorType(HeaderPiece.ColorType.INACTIVE);
-        header3.setMessage("Price");
-        var header4 = new HeaderPiece();
-        header4.setColorType(HeaderPiece.ColorType.INACTIVE);
-        header4.setMessage("Confirm");
+        PriceHeader.setColorType(HeaderPiece.ColorType.INACTIVE);
+        PriceHeader.setMessage("Price");
 
+        ConfirmHeader.setColorType(HeaderPiece.ColorType.INACTIVE);
+        ConfirmHeader.setMessage("Confirm");
 
-        header.setOnMouseClicked(event -> switchPage(header, "CategoryPage"));
-        header2.setOnMouseClicked(event -> switchPage(header2, "ConditionPage"));
-        header3.setOnMouseClicked(event -> switchPage(header3, "PricePage"));
-        header4.setOnMouseClicked(event -> switchPage(header4, "ConfirmPage"));
+        CategoryHeader.setOnMouseClicked(event -> switchPage(CategoryHeader, "CategoryPage"));
+        ConditionHeader.setOnMouseClicked(event -> switchPage(ConditionHeader, "ConditionPage"));
+        PriceHeader.setOnMouseClicked(event -> switchPage(PriceHeader, "PricePage"));
+        ConfirmHeader.setOnMouseClicked(event -> switchPage(ConfirmHeader, "ConfirmPage"));
 
-        container2.getChildren().add(header);
-        container2.getChildren().add(header2);
-        container2.getChildren().add(header3);
-        container2.getChildren().add(header4);
+        container2.getChildren().add(CategoryHeader);
+        container2.getChildren().add(ConditionHeader);
+        container2.getChildren().add(PriceHeader);
+        container2.getChildren().add(ConfirmHeader);
+
 
 
     }
@@ -217,6 +227,9 @@ public class SellingProcess implements Initializable {
         if (activeHeader != null) {
             activeHeader.setColorType(HeaderPiece.ColorType.INACTIVE);
         }
+        for (HeaderPiece header : passedHeaderPieces) {
+            header.setColorType(HeaderPiece.ColorType.PASSED);
+        }
         clickedHeader.setColorType(HeaderPiece.ColorType.ACTIVE);
         activeHeader = clickedHeader;
 
@@ -245,12 +258,26 @@ public class SellingProcess implements Initializable {
     private void updateCategoryField(String category) {
         selectedCategoryLabel.setText("Selected Category: " + category);
         this.selectedCategory = category;
+        if (!passedHeaderPieces.contains(CategoryHeader)) {
+            CategoryHeader.setColorType(HeaderPiece.ColorType.PASSED);
+            passedHeaderPieces.add(CategoryHeader);
+            System.out.println("CategoryHeader added to PassedHeaders");
+        } else {
+            System.out.println("CategoryHeader is already in PassedHeaders");
+        }
 
     }
 
     private void updateConditionField(String condition) {
         selectedConditionLabel.setText("Selected Condition: " + condition);
         this.selectedCondition = condition;
+        if (!passedHeaderPieces.contains(ConditionHeader)) {
+            ConditionHeader.setColorType(HeaderPiece.ColorType.PASSED);
+            passedHeaderPieces.add(ConditionHeader);
+            System.out.println("CategoryHeader added to PassedHeaders");
+        } else {
+            System.out.println("CategoryHeader is already in PassedHeaders");
+        }
 
     }
 
@@ -301,24 +328,42 @@ public class SellingProcess implements Initializable {
 
     }
     public void listMyBook() throws SQLException {
-        Book myBook = new Book("default", "default", 0, 0);
-        myBook.setCategory(selectedCategory);
-        myBook.setCondition(selectedCondition);
-        myBook.setOriginalPrice(originalPrice);
-        myBook.setNewPrice(offeredPrice);
-        List<Book> books =  bookDAO.getAllBooks();
-        System.out.println("Before Inserting");
-        for (Book book : books) {
-            System.out.println(book);
-        }
-        bookDAO.insertBook(myBook);
-        books =  bookDAO.getAllBooks();
-        System.out.println("After Inserting");
-        for (Book book : books) {
-            System.out.println(book);
-        }
+            Book myBook = new Book("default", "default", 0, 0);
+            myBook.setCategory(selectedCategory);
+            myBook.setCondition(selectedCondition);
+            myBook.setOriginalPrice(originalPrice);
+            myBook.setNewPrice(offeredPrice);
+            List<Book> books =  bookDAO.getAllBooks();
+            System.out.println("Before Inserting");
+            for (Book book : books) {
+                System.out.println(book);
+            }
+            bookDAO.insertBook(myBook);
+            books =  bookDAO.getAllBooks();
+            System.out.println("After Inserting");
+            for (Book book : books) {
+                System.out.println(book);
+            }
+            try {
+                goToMainMenu();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
 
+    }
+    private void goToMainMenu() throws IOException {
+        // Get the current stage
+        Stage stage = (Stage) contentArea.getScene().getWindow();
 
+        // Load the Main Menu FXML
+        FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource("/Bookstore/scenes/MainMenu.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+
+        // Set the scene and show the stage
+        stage.setScene(scene);
+        stage.setTitle("Main Menu");
+        stage.show();
     }
 
 }
