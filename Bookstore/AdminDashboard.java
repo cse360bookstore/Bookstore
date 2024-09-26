@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -37,8 +38,8 @@ public class AdminDashboard{
 		anchorPane = new AnchorPane();
 		
 		Rectangle r1 = new Rectangle(300.0f, 80.0f, Color.MAROON);
-	    //r1.setArcHeight(10.0d);
-		//r1.setArcWidth(10.0d);
+	    r1.setArcHeight(10.0d);
+		r1.setArcWidth(10.0d);
 		
 		// Admin Dash 
 		Text adminDash = new Text("Admin Dashboard");
@@ -74,22 +75,40 @@ public class AdminDashboard{
 		AnchorPane.setTopAnchor(hBox, 250.0);
 		AnchorPane.setLeftAnchor(hBox, 200.0);
 		anchorPane.getChildren().add(hBox);
-	
+
+	    // Stack all user info box 	
+		StackPane userInfoStack = new StackPane();
+		
 		// Top left user info box
-		Rectangle userInfo = new Rectangle(180.0f, 200.0f, Color.MAROON);
+		Rectangle userInfo = new Rectangle(150.0f, 150.0f, Color.MAROON);
 		userInfo.setArcHeight(10.0d);
 		userInfo.setArcWidth(10.0d);
 
 		// Username text
 		Text userName = new Text("User@account");
+		StackPane.setAlignment(userName, Pos.BOTTOM_CENTER);
+		AnchorPane.setTopAnchor(userInfoStack, 10.0);
+		AnchorPane.setLeftAnchor(userInfoStack, 10.0);
+		StackPane.setMargin(userName, new Insets(0, 0, 20, 0));
 		userName.setFill(Color.WHITE);
 
-		// 
 		VBox userInfoBox = new VBox();
 		userInfoBox.setAlignment(Pos.BOTTOM_CENTER);
 		userInfoBox.getChildren().addAll(userName);
 		
-		// Make main scene 800, 850
+		// Stack user info 
+		userInfoStack.setAlignment(Pos.TOP_LEFT);
+		anchorPane.getChildren().add(userInfoStack);
+		
+		// Create user image placeholder 
+		Circle userImage = new Circle(50);
+		StackPane.setMargin(userImage, new Insets(0, 0, 20, 0));
+		userImage.setFill(Color.YELLOW);
+		StackPane.setAlignment(userImage, Pos.CENTER);
+	
+		// Add all children objects to stack 
+		userInfoStack.getChildren().addAll(userInfo, userName, userInfoBox, userImage);
+		
 	
 	}
 }
