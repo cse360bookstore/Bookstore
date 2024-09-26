@@ -29,6 +29,7 @@ public class AdminDashboard{
 	private ImageView userImage;
 	private SceneController controller;
 	private AnchorPane anchorPane;
+	private TransactionView transactionView;
 	
 	public AdminDashboard(SceneController controller) {
 		this.controller = controller;
@@ -72,6 +73,9 @@ public class AdminDashboard{
 		Button settingsButton = new Button("Settings");
 		settingsButton.setTextFill(Color.WHITE);
 		settingsButton.setStyle("-fx-background-color: Maroon");
+		
+		// Define events for each button
+		transactionButton.setOnAction(event -> displayTransactionView());
 		
 		// Keep buttons organized horizontally 
 		HBox hBox = new HBox(80);
@@ -146,6 +150,12 @@ public class AdminDashboard{
 			
 		}
 		
+	}
+	
+	private void displayTransactionView() {
+		transactionView = new TransactionView();
+		AnchorPane transactionPane = transactionView.getRoot();
+		anchorPane.getChildren().add(transactionPane);
 	}
 }
 
