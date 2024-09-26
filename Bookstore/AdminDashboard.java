@@ -1,5 +1,7 @@
 package application;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -7,6 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -18,10 +21,12 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class AdminDashboard{
-	
+
+	private ImageView userImage;
 	private SceneController controller;
 	private AnchorPane anchorPane;
 	
@@ -107,8 +112,40 @@ public class AdminDashboard{
 		StackPane.setAlignment(userImage, Pos.CENTER);
 	
 		// Add all children objects to stack 
-		userInfoStack.getChildren().addAll(userInfo, userName, userInfoBox, userImage);
+		
+		// Add button to allow user image upload
+		// TODO: Center this button so it's below circle placeholder and above user email
+		Button userImageUpload = new Button("Upload Iamge");
+		userImageUpload.setOnAction(event -> uploadUserImage(anchorPane));
+		AnchorPane.setTopAnchor(userImageUpload, 200.0);
+		AnchorPane.setLeftAnchor(userImageUpload, 10.0);
 		
 	
+		userInfoStack.getChildren().addAll(userInfo, userName, userInfoBox, userImage, userImageUpload);
+	}
+	
+	// Extend to allow user to choose image from computer to upload for profile picture
+	// TODO: After user selects file to use as profile picture, it fails to display image. 
+	private void uploadUserImage(AnchorPane anchorPane2) {
+		// Select image file
+		FileChooser chooseImage = new FileChooser();
+		chooseImage.setTitle("Choose Image");
+		// Specify accepted file type
+		chooseImage.getExtensionFilters().addAll(
+				new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
+		
+		File selectedFile = chooseImage.showOpenDialog(anchorPane.getScene().getWindow());
+		if(selectedFile != null) {
+			// Set image file as profile picture 
+			Image profilePic = new Image(selectedFile.toURI().toString());
+			userImage = new ImageView(profilePic);
+			// Image dimensions
+			userImage.setFitWidth(40);
+			userImage.setFitHeight(40);
+			userImage.setPreserveRatio(true);
+			
+		}
+		
 	}
 }
+
