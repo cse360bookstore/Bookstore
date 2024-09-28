@@ -20,49 +20,57 @@ public class TransactionView {
 		return rootPane;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void initializeUI() {
 		rootPane = new AnchorPane();
 	
-		// SHow transaction data
-		TableView<TransactionData> table = new TableView<>();
+		// Show transaction data
+		TableView<CustomerData> dataTable = new TableView<>();
 		
 		// Username Column 
-		TableColumn<TransactionData, String> usernameColumn = new TableColumn<>("Username");
-		usernameColumn.setMinWidth(150);
+		TableColumn<CustomerData, String> usernameColumn = new TableColumn<>("Username");
+		usernameColumn.setMinWidth(230);
 		usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
 		
 		// Category Column
-		TableColumn<TransactionData, String> categoryColumn = new TableColumn<>("Category");
-		categoryColumn.setMinWidth(150);
+		TableColumn<CustomerData, String> categoryColumn = new TableColumn<>("Category");
+		categoryColumn.setMinWidth(230);
 		categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
 		
 		// Price Column 
-		TableColumn<TransactionData, Double> priceColumn = new TableColumn<>("Price");
-		priceColumn.setMinWidth(150);
+		TableColumn<CustomerData, Double> priceColumn = new TableColumn<>("Price");
+		priceColumn.setMinWidth(230);
 		priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 		
-		table.getColumns().addAll(usernameColumn, categoryColumn, priceColumn);
+		dataTable.getColumns().addAll(usernameColumn, categoryColumn, priceColumn);
+	
 		
 		// Add code for getting data from database to add to table
+		//TODO: Sample data doesn't display on table, needs fixing 
+		dataTable.getItems().add(new CustomerData("User", "Used Like New", 10.00));
+		dataTable.getItems().add(new CustomerData("User", "Moderately Used", 15.00));
+		dataTable.getItems().add(new CustomerData("User", "Heavily Used", 20.00));
+		
 		
 		// Position table in center 
-		//AnchorPane.setTopAnchor(table, 100.0);
-		//AnchorPane.setLeftAnchor(table, 100.0);
-		AnchorPane.setBottomAnchor(table, 100.0);
+		AnchorPane.setTopAnchor(dataTable, 300.0);
+		AnchorPane.setLeftAnchor(dataTable, 50.0);
+		AnchorPane.setBottomAnchor(dataTable, 250.0);
 		
-		rootPane.getChildren().add(table);
+		rootPane.getChildren().add(dataTable);
+		
 	}
 	
 	// Helper class to hold database data
-	public class TransactionData{
+	public static class CustomerData{
 		private String username;
 		private String category;
 		private Double price;
 		
-		public TransactionData(String Username, String Category, Double Price) {
-			this.username = Username;
-			this.category = Category;
-			this.price = Price;
+		public CustomerData(String username, String category, Double price) {
+			this.username = username;
+			this.category = category;
+			this.price = price;
 			
 		}
 		
