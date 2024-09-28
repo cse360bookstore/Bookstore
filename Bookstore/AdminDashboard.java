@@ -30,6 +30,7 @@ public class AdminDashboard{
 	private SceneController controller;
 	private AnchorPane anchorPane;
 	private TransactionView transactionView;
+	private StatisticsView statisticsView;
 	
 	public AdminDashboard(SceneController controller) {
 		this.controller = controller;
@@ -75,7 +76,9 @@ public class AdminDashboard{
 		settingsButton.setStyle("-fx-background-color: Maroon");
 		
 		// Define events for each button
+		// TODO: Allow user to select between button, only allows one click 
 		transactionButton.setOnAction(event -> displayTransactionView());
+		statisticsButton.setOnAction(event -> displayStatisticsView());
 		
 		// Keep buttons organized horizontally 
 		HBox hBox = new HBox(80);
@@ -156,6 +159,12 @@ public class AdminDashboard{
 		transactionView = new TransactionView();
 		AnchorPane transactionPane = transactionView.getRoot();
 		anchorPane.getChildren().add(transactionPane);
+	}
+	
+	private void displayStatisticsView() {
+		statisticsView = new StatisticsView();
+		AnchorPane statisticsPane = statisticsView.getRoot();
+		anchorPane.getChildren().add(statisticsPane);
 	}
 }
 
