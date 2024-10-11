@@ -66,8 +66,6 @@ public class AdminDashboard{
 		Button transactionButton = new Button("Transactions");
 		transactionButton.setTextFill(Color.WHITE);
 		transactionButton.setStyle("-fx-background-color: Maroon");
-		// When transaction button is clicked. 
-		//transactionButton.setOnAction(event -> displayTransactionView());
 		
 		// Statistics Button
 		Button statisticsButton = new Button("Statistics");
@@ -78,10 +76,6 @@ public class AdminDashboard{
 		Button settingsButton = new Button("Settings");
 		settingsButton.setTextFill(Color.WHITE);
 		settingsButton.setStyle("-fx-background-color: Maroon");
-	
-		// If statistics button is pressed.
-		//statisticsButton.setOnAction(event -> displayStatisticsView());
-	
 		
 		// Transaction scene 
 		transactionButton.setOnAction(event -> {
@@ -97,6 +91,13 @@ public class AdminDashboard{
 			transactionButton.setStyle("-fx-background-color :Gray");
 			settingsButton.setStyle("-fx-background-color :Gray");
 			displayStatisticsView();
+		});
+	
+		// TODO: Create settings scene
+		settingsButton.setOnAction(event -> {
+			settingsButton.setStyle("-fx-background-color: Maroon");
+			transactionButton.setStyle("-fx-background-color: Gray");
+			statisticsButton.setStyle("-fx-background-color: Gray");
 		});
 		
 		// Keep buttons organized horizontally 
