@@ -26,13 +26,16 @@ import javafx.stage.Stage;
 
 public class AdminDashboard{
 
-	private ImageView userImage;
+	private ImageView imageSelected;
 	private SceneController controller;
 	private AnchorPane anchorPane;
 	private TransactionView transactionView;
+	private StatisticsView statisticsView;
 	
 	public AdminDashboard(SceneController controller) {
 		this.controller = controller;
+		this.transactionView = new TransactionView();
+		this.statisticsView = new StatisticsView();
 		createUI();
 	}
 	
@@ -74,8 +77,28 @@ public class AdminDashboard{
 		settingsButton.setTextFill(Color.WHITE);
 		settingsButton.setStyle("-fx-background-color: Maroon");
 		
-		// Define events for each button
-		transactionButton.setOnAction(event -> displayTransactionView());
+		// Transaction scene 
+		transactionButton.setOnAction(event -> {
+			transactionButton.setStyle("-fx-background-color: Maroon");
+			settingsButton.setStyle("-fx-background-color: Gray");
+			statisticsButton.setStyle("-fx-background-color: Gray");
+			displayTransactionView();
+		});
+		
+		// Statistics scene 
+		statisticsButton.setOnAction(event -> {
+			statisticsButton.setStyle("-fx-background-color: #CCCC00");
+			transactionButton.setStyle("-fx-background-color :Gray");
+			settingsButton.setStyle("-fx-background-color :Gray");
+			displayStatisticsView();
+		});
+	
+		// TODO: Create settings scene
+		settingsButton.setOnAction(event -> {
+			settingsButton.setStyle("-fx-background-color: Maroon");
+			transactionButton.setStyle("-fx-background-color: Gray");
+			statisticsButton.setStyle("-fx-background-color: Gray");
+		});
 		
 		// Keep buttons organized horizontally 
 		HBox hBox = new HBox(80);
@@ -89,7 +112,7 @@ public class AdminDashboard{
 		StackPane userInfoStack = new StackPane();
 		
 		// Top left user info box
-		Rectangle userInfo = new Rectangle(150.0f, 150.0f, Color.MAROON);
+		Rectangle userInfo = new Rectangle(180.0f, 180.0f, Color.MAROON);
 		userInfo.setArcHeight(10.0d);
 		userInfo.setArcWidth(10.0d);
 
@@ -98,7 +121,7 @@ public class AdminDashboard{
 		StackPane.setAlignment(userName, Pos.BOTTOM_CENTER);
 		AnchorPane.setTopAnchor(userInfoStack, 10.0);
 		AnchorPane.setLeftAnchor(userInfoStack, 10.0);
-		StackPane.setMargin(userName, new Insets(0, 0, 20, 0));
+		StackPane.setMargin(userName, new Insets(0, 0, 30, 0));
 		userName.setFill(Color.WHITE);
 
 		VBox userInfoBox = new VBox();
@@ -114,22 +137,19 @@ public class AdminDashboard{
 		StackPane.setMargin(userImage, new Insets(0, 0, 20, 0));
 		userImage.setFill(Color.YELLOW);
 		StackPane.setAlignment(userImage, Pos.CENTER);
-	
-		// Add all children objects to stack 
 		
 		// Add button to allow user image upload
-		// TODO: Center this button so it's below circle placeholder and above user email
 		Button userImageUpload = new Button("Upload Iamge");
 		userImageUpload.setOnAction(event -> uploadUserImage(anchorPane));
-		AnchorPane.setTopAnchor(userImageUpload, 200.0);
+		AnchorPane.setTopAnchor(userImageUpload, 200.0); 
 		AnchorPane.setLeftAnchor(userImageUpload, 10.0);
-		
+		StackPane.setAlignment(userImageUpload, Pos.BOTTOM_CENTER);
 	
 		userInfoStack.getChildren().addAll(userInfo, userName, userInfoBox, userImage, userImageUpload);
 	}
 	
 	// Extend to allow user to choose image from computer to upload for profile picture
-	// TODO: After user selects file to use as profile picture, it fails to display image. 
+	// TODO: User image doesn't upload to profile picture. 
 	private void uploadUserImage(AnchorPane anchorPane2) {
 		// Select image file
 		FileChooser chooseImage = new FileChooser();
@@ -142,20 +162,45 @@ public class AdminDashboard{
 		if(selectedFile != null) {
 			// Set image file as profile picture 
 			Image profilePic = new Image(selectedFile.toURI().toString());
-			userImage = new ImageView(profilePic);
+			// was userImage
+			imageSelected = new ImageView(profilePic);
 			// Image dimensions
-			userImage.setFitWidth(40);
-			userImage.setFitHeight(40);
-			userImage.setPreserveRatio(true);
+			imageSelected.setFitWidth(40);
+			imageSelected.setFitHeight(40);
+			imageSelected.setPreserveRatio(true);
 			
 		}
 		
 	}
 	
 	private void displayTransactionView() {
-		transactionView = new TransactionView();
+
+		// Define button color change 
+		
+		// Clear previous scene 
+		anchorPane.getChildren().removeIf(node -> node instanceof AnchorPane && node != getRoot());
+		
+		
 		AnchorPane transactionPane = transactionView.getRoot();
+		AnchorPane.setTopAnchor(transactionPane, 300.0);
+		AnchorPane.setLeftAnchor(transactionPane, 50.0);
+		AnchorPane.setBottomAnchor(transactionPane, 250.0);
+		
 		anchorPane.getChildren().add(transactionPane);
+	}
+	
+	private void displayStatisticsView() {
+	
+		// Define button color change 
+		
+		anchorPane.getChildren().removeIf(node -> node instanceof AnchorPane && node != getRoot());
+
+		AnchorPane statisticsPane = statisticsView.getRoot();
+		AnchorPane.setTopAnchor(statisticsPane, 300.0);
+		AnchorPane.setLeftAnchor(statisticsPane, 50.0);
+		AnchorPane.setBottomAnchor(statisticsPane, 250.0);
+		
+		anchorPane.getChildren().add(statisticsPane);
 	}
 }
 
