@@ -139,7 +139,6 @@ public class AdminDashboard{
 		StackPane.setAlignment(userImage, Pos.CENTER);
 		
 		// Add button to allow user image upload
-		// TODO: Center this button so it's below circle placeholder and above user email
 		Button userImageUpload = new Button("Upload Iamge");
 		userImageUpload.setOnAction(event -> uploadUserImage(anchorPane));
 		AnchorPane.setTopAnchor(userImageUpload, 200.0); 
