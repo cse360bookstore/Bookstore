@@ -1,5 +1,8 @@
 package Bookstore.scenes.admin;
 
+import Bookstore.models.Book;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
@@ -8,6 +11,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+
+import java.util.ArrayList;
 
 public class TransactionView {
 	private AnchorPane rootPane;
@@ -51,7 +56,18 @@ public class TransactionView {
 		dataTable.getItems().add(new CustomerData("User", "Moderately Used", 15.00));
 		dataTable.getItems().add(new CustomerData("User", "Heavily Used", 20.00));
 
-
+		var cust1 =new CustomerData("User", "Used Like New", 10.000);
+		var cust2 =new CustomerData("User", "Moderately Used", 15.00);
+		var cust3 =new CustomerData("User", "Heavily Used", 20.00);
+		var cust4 =new CustomerData("User", "Moderately Used", 20.00);
+		var custs = new ArrayList<CustomerData>();
+		custs.add(cust1);
+		custs.add(cust2);
+		custs.add(cust3);
+		custs.add(cust4);
+		FXCollections.observableList(custs);
+		ObservableList<CustomerData> custList = FXCollections.observableArrayList(custs);
+		dataTable.setItems(custList);
 		// Position table in center
 		//AnchorPane.setTopAnchor(dataTable, 300.0);
 		//AnchorPane.setLeftAnchor(dataTable, 50.0);

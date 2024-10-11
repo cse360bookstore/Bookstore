@@ -41,16 +41,24 @@ public class TransactionView {
 		TableColumn<CustomerData, Double> priceColumn = new TableColumn<>("Price");
 		priceColumn.setMinWidth(230);
 		priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-		
+
 		dataTable.getColumns().addAll(usernameColumn, categoryColumn, priceColumn);
 	
 		
 		// Add code for getting data from database to add to table
 		//TODO: Sample data doesn't display on table, needs fixing 
-		dataTable.getItems().add(new CustomerData("User", "Used Like New", 10.00));
-		dataTable.getItems().add(new CustomerData("User", "Moderately Used", 15.00));
-		dataTable.getItems().add(new CustomerData("User", "Heavily Used", 20.00));
-		
+		var cust1 = (new CustomerData("User", "Used Like New", 10.00));
+		var cust2 = (new CustomerData("User", "Moderately Used", 15.00));
+		var cust3 = (new CustomerData("User", "Heavily Used", 20.00));
+
+		var custList = new ArrayList<>();
+
+		custList.add(cust1);
+		custList.add(cust2);
+		custList.add(cust3);
+
+		dataTable.setItems(custList)
+
 	
 		// Position table in center 
 		//AnchorPane.setTopAnchor(dataTable, 300.0);
