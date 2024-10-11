@@ -1,4 +1,4 @@
-package Bookstore.scenes;
+package Bookstore.scenes.seller;
 
 import Bookstore.SqlConnectionPoolFactory;
 import Bookstore.components.HeaderPiece;
@@ -6,6 +6,7 @@ import Bookstore.components.SellingProcessSection;
 import Bookstore.components.ImgBox;
 import Bookstore.datamodels.BookDAO;
 import Bookstore.models.Book;
+import Bookstore.scenes.MainMenu;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,7 +18,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import javax.smartcardio.CardTerminal;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.net.URL;
@@ -27,6 +27,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class SellingProcess implements Initializable {
+    private String username;
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     DataSource dataSource = SqlConnectionPoolFactory.createConnectionPool();
     private final BookDAO bookDAO = new BookDAO(dataSource);
 
@@ -94,12 +100,6 @@ public class SellingProcess implements Initializable {
 
 
     }
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
-
     private SellingProcessSection createCategoryContent() {
         SellingProcessSection contentSection = new SellingProcessSection();
         contentSection.setTitle("What is the category of your book?");
@@ -261,9 +261,7 @@ public class SellingProcess implements Initializable {
         if (!passedHeaderPieces.contains(CategoryHeader)) {
             CategoryHeader.setColorType(HeaderPiece.ColorType.PASSED);
             passedHeaderPieces.add(CategoryHeader);
-            System.out.println("CategoryHeader added to PassedHeaders");
-        } else {
-            System.out.println("CategoryHeader is already in PassedHeaders");
+
         }
 
     }
@@ -274,9 +272,6 @@ public class SellingProcess implements Initializable {
         if (!passedHeaderPieces.contains(ConditionHeader)) {
             ConditionHeader.setColorType(HeaderPiece.ColorType.PASSED);
             passedHeaderPieces.add(ConditionHeader);
-            System.out.println("CategoryHeader added to PassedHeaders");
-        } else {
-            System.out.println("CategoryHeader is already in PassedHeaders");
         }
 
     }
@@ -328,11 +323,14 @@ public class SellingProcess implements Initializable {
 
     }
     public void listMyBook() throws SQLException {
-            Book myBook = new Book("default", "default", 0, 0);
+            Book myBook = new Book("default", "default", 0, 0, "dummy");
             myBook.setCategory(selectedCategory);
             myBook.setCondition(selectedCondition);
             myBook.setOriginalPrice(originalPrice);
             myBook.setNewPrice(offeredPrice);
+            myBook.setListedBy(username);
+            System.out.println("Listing My Book");
+            System.out.println(username);
             List<Book> books =  bookDAO.getAllBooks();
             System.out.println("Before Inserting");
             for (Book book : books) {
@@ -349,6 +347,9 @@ public class SellingProcess implements Initializable {
             }
             catch (IOException e) {
                 e.printStackTrace();
+
+
+
             }
 
     }
