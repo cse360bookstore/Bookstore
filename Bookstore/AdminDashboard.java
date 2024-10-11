@@ -67,8 +67,7 @@ public class AdminDashboard{
 		transactionButton.setTextFill(Color.WHITE);
 		transactionButton.setStyle("-fx-background-color: Maroon");
 		// When transaction button is clicked. 
-		transactionButton.setOnAction(event -> displayTransactionView());
-		
+		//transactionButton.setOnAction(event -> displayTransactionView());
 		
 		// Statistics Button
 		Button statisticsButton = new Button("Statistics");
@@ -81,7 +80,24 @@ public class AdminDashboard{
 		settingsButton.setStyle("-fx-background-color: Maroon");
 	
 		// If statistics button is pressed.
-		statisticsButton.setOnAction(event -> displayStatisticsView());
+		//statisticsButton.setOnAction(event -> displayStatisticsView());
+	
+		
+		// Transaction scene 
+		transactionButton.setOnAction(event -> {
+			transactionButton.setStyle("-fx-background-color: Maroon");
+			settingsButton.setStyle("-fx-background-color: Gray");
+			statisticsButton.setStyle("-fx-background-color: Gray");
+			displayTransactionView();
+		});
+		
+		// Statistics scene 
+		statisticsButton.setOnAction(event -> {
+			statisticsButton.setStyle("-fx-background-color: #CCCC00");
+			transactionButton.setStyle("-fx-background-color :Gray");
+			settingsButton.setStyle("-fx-background-color :Gray");
+			displayStatisticsView();
+		});
 		
 		// Keep buttons organized horizontally 
 		HBox hBox = new HBox(80);
@@ -159,7 +175,9 @@ public class AdminDashboard{
 	}
 	
 	private void displayTransactionView() {
-	
+
+		// Define button color change 
+		
 		// Clear previous scene 
 		anchorPane.getChildren().removeIf(node -> node instanceof AnchorPane && node != getRoot());
 		
@@ -173,6 +191,8 @@ public class AdminDashboard{
 	}
 	
 	private void displayStatisticsView() {
+	
+		// Define button color change 
 		
 		anchorPane.getChildren().removeIf(node -> node instanceof AnchorPane && node != getRoot());
 
