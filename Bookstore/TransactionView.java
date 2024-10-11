@@ -51,11 +51,11 @@ public class TransactionView {
 		dataTable.getItems().add(new CustomerData("User", "Moderately Used", 15.00));
 		dataTable.getItems().add(new CustomerData("User", "Heavily Used", 20.00));
 		
-		
+	
 		// Position table in center 
-		AnchorPane.setTopAnchor(dataTable, 300.0);
-		AnchorPane.setLeftAnchor(dataTable, 50.0);
-		AnchorPane.setBottomAnchor(dataTable, 250.0);
+		//AnchorPane.setTopAnchor(dataTable, 300.0);
+		//AnchorPane.setLeftAnchor(dataTable, 50.0);
+		//AnchorPane.setBottomAnchor(dataTable, 250.0);
 		
 		rootPane.getChildren().add(dataTable);
 		

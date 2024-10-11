@@ -39,9 +39,9 @@ public class StatisticsView {
 		// Create BarChart 
 		BarChart<String, Number> statsChart = new BarChart<>(xAxis, yAxis);
 		
-		AnchorPane.setTopAnchor(statsChart, 300.0);
-		AnchorPane.setLeftAnchor(statsChart, 50.0);
-		AnchorPane.setBottomAnchor(statsChart, 250.0);
+		//AnchorPane.setTopAnchor(statsChart, 300.0);
+		//AnchorPane.setLeftAnchor(statsChart, 50.0);
+		//AnchorPane.setBottomAnchor(statsChart, 250.0);
 		
 		rootPane.getChildren().add(statsChart);
 	}

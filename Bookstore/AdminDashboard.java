@@ -34,6 +34,8 @@ public class AdminDashboard{
 	
 	public AdminDashboard(SceneController controller) {
 		this.controller = controller;
+		this.transactionView = new TransactionView();
+		this.statisticsView = new StatisticsView();
 		createUI();
 	}
 	
@@ -64,6 +66,9 @@ public class AdminDashboard{
 		Button transactionButton = new Button("Transactions");
 		transactionButton.setTextFill(Color.WHITE);
 		transactionButton.setStyle("-fx-background-color: Maroon");
+		// When transaction button is clicked. 
+		transactionButton.setOnAction(event -> displayTransactionView());
+		
 		
 		// Statistics Button
 		Button statisticsButton = new Button("Statistics");
@@ -74,10 +79,8 @@ public class AdminDashboard{
 		Button settingsButton = new Button("Settings");
 		settingsButton.setTextFill(Color.WHITE);
 		settingsButton.setStyle("-fx-background-color: Maroon");
-		
-		// Define events for each button
-		// TODO: Allow user to select between button, only allows one click 
-		transactionButton.setOnAction(event -> displayTransactionView());
+	
+		// If statistics button is pressed.
 		statisticsButton.setOnAction(event -> displayStatisticsView());
 		
 		// Keep buttons organized horizontally 
@@ -156,14 +159,28 @@ public class AdminDashboard{
 	}
 	
 	private void displayTransactionView() {
-		transactionView = new TransactionView();
+	
+		// Clear previous scene 
+		anchorPane.getChildren().removeIf(node -> node instanceof AnchorPane && node != getRoot());
+		
+		
 		AnchorPane transactionPane = transactionView.getRoot();
+		AnchorPane.setTopAnchor(transactionPane, 300.0);
+		AnchorPane.setLeftAnchor(transactionPane, 50.0);
+		AnchorPane.setBottomAnchor(transactionPane, 250.0);
+		
 		anchorPane.getChildren().add(transactionPane);
 	}
 	
 	private void displayStatisticsView() {
-		statisticsView = new StatisticsView();
+		
+		anchorPane.getChildren().removeIf(node -> node instanceof AnchorPane && node != getRoot());
+
 		AnchorPane statisticsPane = statisticsView.getRoot();
+		AnchorPane.setTopAnchor(statisticsPane, 300.0);
+		AnchorPane.setLeftAnchor(statisticsPane, 50.0);
+		AnchorPane.setBottomAnchor(statisticsPane, 250.0);
+		
 		anchorPane.getChildren().add(statisticsPane);
 	}
 }
