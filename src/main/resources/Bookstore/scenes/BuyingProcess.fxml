@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Bookstore.scenes.BuyingProcess" spacing="10" alignment="CENTER">
+<VBox xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Bookstore.scenes.buyer.BuyingProcess" spacing="10" alignment="CENTER">
 
     <TableView fx:id="bookTable" prefWidth="600">
         <columns>
@@ -12,6 +12,7 @@
             <TableColumn fx:id="conditionColumn" text="Condition" />
             <TableColumn fx:id="originalPriceColumn" text="Original Price" />
             <TableColumn fx:id="newPriceColumn" text="New Price" />
+            <TableColumn fx:id="listedByColumn" text="listedBy" />
         </columns>
     </TableView>
 

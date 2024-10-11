@@ -32,7 +32,7 @@ public class BookDAO {
                 book.setCondition(rs.getString("condition"));
                 book.setOriginalPrice(rs.getDouble("originalPrice"));
                 book.setNewPrice(rs.getDouble("newPrice"));
-
+                book.setListedBy((rs.getString("listedBy")));
                 books.add(book);
             }
         }
@@ -40,7 +40,7 @@ public class BookDAO {
         return books;
     }
     public void insertBook(Book book) throws SQLException {
-        String query = "INSERT INTO Book (category, `condition`, originalPrice, newPrice) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO Book (category, `condition`, originalPrice, newPrice, listedBy) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -49,6 +49,7 @@ public class BookDAO {
             statement.setString(2, book.getCondition());
             statement.setDouble(3, book.getOriginalPrice());
             statement.setDouble(4, book.getNewPrice());
+            statement.setString(5, book.getListedBy());
 
             statement.executeUpdate();
         }
