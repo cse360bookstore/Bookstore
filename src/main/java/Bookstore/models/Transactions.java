@@ -87,12 +87,12 @@ public class Transactions {
 		// Logic to load transaction details by ID 
 	}
 
-  @Override 
-  public String toString(){
-    return "Transaction [sellerName=" + sellerName + ", buyName=" + buyerName + 
-      ", soldPrice=" + soldPrice + ", category=" + category + 
-      ", transactionID=" + transactionID + ", itemName=" + itemName + "]";
-  }
+    @Override 
+    public String toString(){
+        return "Transaction [sellerName=" + sellerName + ", buyName=" + buyerName + 
+        ", soldPrice=" + soldPrice + ", category=" + category + 
+        ", transactionID=" + transactionID + ", itemName=" + itemName + "]";
+      }
   }
 	
 	
