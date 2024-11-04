@@ -8,6 +8,7 @@ module com.example.sellingprocess {
     requires gax;
     requires org.jnrproject.posix;
     requires com.google.api.services.sqladmin;
+    requires jdk.jshell;
 
     opens Bookstore to javafx.fxml;
     exports Bookstore;

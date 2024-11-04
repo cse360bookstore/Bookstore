@@ -1,5 +1,7 @@
 package Bookstore.models;
 
+import jdk.jshell.spi.ExecutionControl;
+
 public class Transactions {
 	private String sellerName;
 	private String buyerName;
@@ -84,7 +86,9 @@ public class Transactions {
 		
 	}
 	public static Transactions loadFromDatabase(int transactionID) {
-		// Logic to load transaction details by ID 
+		// Logic to load transaction details by ID
+		return null;
+
 	}
 
     @Override 
@@ -97,5 +101,3 @@ public class Transactions {
 	
 	
 	
-
-}
