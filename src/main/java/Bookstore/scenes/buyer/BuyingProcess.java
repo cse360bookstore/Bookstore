@@ -1,71 +1,60 @@
 package Bookstore.scenes.buyer;
 
 import Bookstore.SqlConnectionPoolFactory;
-import Bookstore.datamodels.BookDAO;
-import Bookstore.models.Book;
-import Bookstore.scenes.MainMenu;
-import javafx.collections.FXCollections;
+import Bookstore.components.AlertHelper;
+import Bookstore.dataManagers.BookManager;
+import Bookstore.models.BookWithUser;
+import Bookstore.models.UserSession;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.VBox;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
 
 public class BuyingProcess {
-    DataSource dataSource = SqlConnectionPoolFactory.createConnectionPool();
-    private final BookDAO bookDAO = new BookDAO(dataSource);
-
     @FXML
-    private TableView<Book> bookTable;
+    private VBox booksContainer;
+    private BookManager bookManager;
 
-    @FXML
-    private TableColumn<Book, String> categoryColumn;
-
-    @FXML
-    private TableColumn<Book, String> conditionColumn;
-
-    @FXML
-    private TableColumn<Book, Double> originalPriceColumn;
-
-    @FXML
-    private TableColumn<Book, Double> newPriceColumn;
-
-    @FXML
-    private TableColumn<Book, String> listedByColumn;
-
-    // This method will be called to initialize the view
     @FXML
     public void initialize() {
-        // Set up the columns in the table
-        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
-        conditionColumn.setCellValueFactory(new PropertyValueFactory<>("condition"));
-        originalPriceColumn.setCellValueFactory(new PropertyValueFactory<>("originalPrice"));
-        newPriceColumn.setCellValueFactory(new PropertyValueFactory<>("newPrice"));
-        listedByColumn.setCellValueFactory(new PropertyValueFactory<>("listedBy"));
+        DataSource dataSource = SqlConnectionPoolFactory.createConnectionPool();
+        bookManager = new BookManager(dataSource);
 
-        // Load the book data into the table
+        loadBooks();
+    }
+
+    private void loadBooks() {
         try {
-            loadBooks();
-        } catch (SQLException e) {
+            ObservableList<BookWithUser> bookList = bookManager.getAllBooksForSale();
+            booksContainer.getChildren().clear();
+
+            if (bookList.isEmpty()) {
+                AlertHelper.showAlert(Alert.AlertType.ERROR, "No Books Found", "There are currently no books available for purchase.");
+                return;
+            }
+
+            for (BookWithUser book : bookList) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Bookstore/scenes/buyer/BookItem.fxml"));
+                VBox bookItem = loader.load();
+                BookItem controller = loader.getController();
+                controller.setBook(book, bookManager);
+                booksContainer.getChildren().add(bookItem);
+            }
+
+        } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception (display an error message, log it, etc.)
+            AlertHelper.showAlert(Alert.AlertType.ERROR, "UI Error", "Failed to load the book items.");
         }
     }
 
-    private void loadBooks() throws SQLException {
-        List<Book> bookList = bookDAO.getAllBooks();
 
-        ObservableList<Book> bookObservableList = FXCollections.observableArrayList(bookList);
-
-        bookTable.setItems(bookObservableList);
+    @FXML
+    private void handleRefreshAction() {
+        loadBooks();
     }
 
 }

@@ -11,10 +11,13 @@
       fx:controller="Bookstore.scenes.seller.SellingProcess">
     <HBox fx:id="container2" alignment="CENTER"/>
     <VBox fx:id="contentArea"/>
-    <Label fx:id="selectedCategoryLabel"/>
-    <Label fx:id="selectedConditionLabel"/>
-    <Label fx:id="selectedPriceLabel"/>
-    <Label fx:id="offeredPriceLabel"/>
+    <Label fx:id="selectedCategoryLabel" text="Selected Category: " />
+    <Label fx:id="selectedConditionLabel" text="Selected Condition: " />
+    <Label fx:id="selectedPriceLabel" text="Inputted Price: " />
+    <Label fx:id="offeredPriceLabel" text="Offered Price: " />
+    <Label fx:id="bookTitleLabel" text="Title: " />
+    <Label fx:id="bookDescriptionLabel" text="Description: " />
+    <Label fx:id="bookAuthorLabel" text="Author: " />
 
 
     <padding>

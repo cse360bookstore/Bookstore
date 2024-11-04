@@ -1,6 +1,9 @@
 package Bookstore.scenes.admin;
 
+import Bookstore.SqlConnectionPoolFactory;
+import Bookstore.dataManagers.AdminManager;
 import Bookstore.models.Book;
+import Bookstore.models.Transaction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -11,63 +14,74 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import java.time.LocalDateTime;
 
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class TransactionView {
 	private AnchorPane rootPane;
 
-	public TransactionView() {
+	public TransactionView() throws SQLException {
 		initializeUI();
 	}
 
 	public AnchorPane getRoot() {
 		return rootPane;
 	}
+	DataSource dataSource = SqlConnectionPoolFactory.createConnectionPool();
+	private final AdminManager adminManager = new AdminManager(dataSource);
+
 
 	@SuppressWarnings("unchecked")
-	private void initializeUI() {
+	private void initializeUI() throws SQLException {
 		rootPane = new AnchorPane();
 
-		// Show transaction data
-		TableView<CustomerData> dataTable = new TableView<>();
+		TableView<Transaction> dataTable = new TableView<>();
 
-		// Username Column
-		TableColumn<CustomerData, String> usernameColumn = new TableColumn<>("Username");
-		usernameColumn.setMinWidth(230);
-		usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+		TableColumn<Transaction, String> sellerNameColumn = new TableColumn<>("Seller Name");
+		sellerNameColumn.setMinWidth(150);
+		sellerNameColumn.setCellValueFactory(new PropertyValueFactory<>("sellerName"));
+
+		// Buyer Name Column
+		TableColumn<Transaction, String> buyerNameColumn = new TableColumn<>("Buyer Name");
+		buyerNameColumn.setMinWidth(150);
+		buyerNameColumn.setCellValueFactory(new PropertyValueFactory<>("buyerName"));
+
+		// Sold Price Column
+		TableColumn<Transaction, Double> soldPriceColumn = new TableColumn<>("Sold Price");
+		soldPriceColumn.setMinWidth(100);
+		soldPriceColumn.setCellValueFactory(new PropertyValueFactory<>("soldPrice"));
 
 		// Category Column
-		TableColumn<CustomerData, String> categoryColumn = new TableColumn<>("Category");
-		categoryColumn.setMinWidth(230);
+		TableColumn<Transaction, String> categoryColumn = new TableColumn<>("Category");
+		categoryColumn.setMinWidth(150);
 		categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
 
-		// Price Column
-		TableColumn<CustomerData, Double> priceColumn = new TableColumn<>("Price");
-		priceColumn.setMinWidth(230);
-		priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+		// Book Title Column
+		TableColumn<Transaction, String> bookTitleColumn = new TableColumn<>("Book Title");
+		bookTitleColumn.setMinWidth(200);
+		bookTitleColumn.setCellValueFactory(new PropertyValueFactory<>("bookTitle"));
 
-		dataTable.getColumns().addAll(usernameColumn, categoryColumn, priceColumn);
+		// Sold Date Column
+		TableColumn<Transaction, LocalDateTime> soldDateColumn = new TableColumn<>("Sold Date");
+		soldDateColumn.setMinWidth(150);
+		soldDateColumn.setCellValueFactory(new PropertyValueFactory<>("soldDate"));
 
+		dataTable.getColumns().addAll(
+				sellerNameColumn,
+				buyerNameColumn,
+				soldPriceColumn,
+				categoryColumn,
+				bookTitleColumn,
+				soldDateColumn
+		);
 
-		// Add code for getting data from database to add to table
-		//TODO: Sample data doesn't display on table, needs fixing
-		dataTable.getItems().add(new CustomerData("User", "Used Like New", 10.00));
-		dataTable.getItems().add(new CustomerData("User", "Moderately Used", 15.00));
-		dataTable.getItems().add(new CustomerData("User", "Heavily Used", 20.00));
+		ObservableList< Transaction > transactions = adminManager.getAllTransactions();
 
-		var cust1 =new CustomerData("User", "Used Like New", 10.000);
-		var cust2 =new CustomerData("User", "Moderately Used", 15.00);
-		var cust3 =new CustomerData("User", "Heavily Used", 20.00);
-		var cust4 =new CustomerData("User", "Moderately Used", 20.00);
-		var custs = new ArrayList<CustomerData>();
-		custs.add(cust1);
-		custs.add(cust2);
-		custs.add(cust3);
-		custs.add(cust4);
-		FXCollections.observableList(custs);
-		ObservableList<CustomerData> custList = FXCollections.observableArrayList(custs);
-		dataTable.setItems(custList);
+		dataTable.setItems(transactions);
+
 		// Position table in center
 		//AnchorPane.setTopAnchor(dataTable, 300.0);
 		//AnchorPane.setLeftAnchor(dataTable, 50.0);
