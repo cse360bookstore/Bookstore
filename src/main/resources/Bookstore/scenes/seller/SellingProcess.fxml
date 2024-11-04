@@ -8,7 +8,7 @@
 
 <?import javafx.scene.layout.HBox?>
 <VBox fx:id="container" alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="Bookstore.scenes.SellingProcess">
+      fx:controller="Bookstore.scenes.seller.SellingProcess">
     <HBox fx:id="container2" alignment="CENTER"/>
     <VBox fx:id="contentArea"/>
     <Label fx:id="selectedCategoryLabel"/>
@@ -20,9 +20,6 @@
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
-
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
 
 
 </VBox>

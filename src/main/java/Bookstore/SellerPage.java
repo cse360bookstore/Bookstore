@@ -7,12 +7,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class SellingCategory extends Application {
+public class SellerPage extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(SellingCategory.class.getResource("/Bookstore/scenes/SellingProcess.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(SellerPage.class.getResource("/Bookstore/scenes/seller/SellingProcess.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 1200);
-        stage.setTitle("Selling Category");
+        stage.setTitle("Seller Page");
         stage.setScene(scene);
         stage.show();
     }
