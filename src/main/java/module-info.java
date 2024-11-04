@@ -7,10 +7,12 @@ module com.example.sellingprocess {
     requires java.smartcardio;
     requires gax;
     requires org.jnrproject.posix;
+    requires com.google.api.services.sqladmin;
 
     opens Bookstore to javafx.fxml;
     exports Bookstore;
     exports Bookstore.scenes to javafx.fxml;
+    exports Bookstore.models to javafx.fxml;
     opens Bookstore.scenes to javafx.fxml;
     opens Bookstore.components to javafx.fxml;
     opens Bookstore.models to javafx.base;

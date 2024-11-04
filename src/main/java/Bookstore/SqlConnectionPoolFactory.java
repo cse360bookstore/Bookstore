@@ -5,11 +5,11 @@ import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
 
 public class SqlConnectionPoolFactory{
-    private static final String INSTANCE_CONNECTION_NAME =
-            System.getenv("INSTANCE_CONNECTION_NAME");
-    private static final String DB_USER = System.getenv("DB_USER");
-    private static final String DB_PASS = System.getenv("DB_PASS");
-    private static final String DB_NAME = System.getenv("DB_NAME");
+    private static final String INSTANCE_CONNECTION_NAME = "fine-slice-435302-a8:us-central1:bookstore";
+
+    private static final String DB_USER = "main";
+    private static final String DB_PASS = "KB&DnG,PSEM.s\"T;";
+    private static final String DB_NAME = "bookstore";
 
     public static DataSource createConnectionPool() {
 
@@ -17,7 +17,7 @@ public class SqlConnectionPoolFactory{
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(String.format("jdbc:mysql:///%s", DB_NAME));
         config.setUsername(DB_USER);
-        //config.setPassword(DB_PASS);
+
         config.addDataSourceProperty("socketFactory", "com.google.cloud.sql.mysql.SocketFactory");
         config.addDataSourceProperty("cloudSqlInstance", INSTANCE_CONNECTION_NAME);
 

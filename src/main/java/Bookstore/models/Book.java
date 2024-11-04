@@ -3,19 +3,47 @@ package Bookstore.models;
 import jnr.posix.WString;
 
 public class Book {
+    private String Title;
+    private String Author;
+    private String Description;
     private String category;
     private String condition;
     private double originalPrice;
     private double newPrice;
-    private String listedBy;
 
     public Book() {}
-    public Book(String category, String condition, double originalPrice, double newPrice, String listedBy) {
+    public Book(String title, String author, String description, String category, String condition, double originalPrice, double newPrice) {
+        this.Title = title;
+        this.Author = author;
+        this.Description = description;
         this.category = category;
         this.condition = condition;
         this.originalPrice = originalPrice;
         this.newPrice = newPrice;
-        this.listedBy = listedBy;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
+    }
+
+    public String getAuthor() {
+        return Author;
+    }
+
+    public void setAuthor(String author) {
+        Author = author;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
     }
 
     public String getCategory() {
@@ -50,14 +78,10 @@ public class Book {
         this.newPrice = newPrice;
     }
 
-    public String getListedBy() {return listedBy;}
-
-    public void setListedBy(String listedBy) {this.listedBy = listedBy;}
-
     @Override
     public String toString() {
         return "Book [category=" + category + ", condition=" + condition +
-                ", originalPrice=" + originalPrice + ", newPrice=" + newPrice + ", listedBy=" + listedBy + "]";
+                ", originalPrice=" + originalPrice + ", newPrice=" + newPrice + ", listedBy="  + "]";
     }
 }
 

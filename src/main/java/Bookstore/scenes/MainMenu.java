@@ -2,7 +2,9 @@ package Bookstore.scenes;
 
 import Bookstore.BuyerPage;
 import Bookstore.SellerPage;
+import Bookstore.models.UserSession;
 import Bookstore.scenes.admin.AdminDashboard;
+import Bookstore.scenes.buyer.BuyingProcess;
 import Bookstore.scenes.seller.SellingProcess;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,12 +14,17 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
+// Todo: Have user session keep track of what pages they can open, and only display
 public class MainMenu {
     private String username;
-
+    private UserSession user;
     public void setUsername(String username) {
         this.username = username;
+    }
+    public void setUser(UserSession user) {
+        this.user = user;
     }
     // Method to open the Seller Page
     @FXML
@@ -29,8 +36,6 @@ public class MainMenu {
 
         Scene scene = new Scene(fxmlLoader.load(), 800, 1200);
         stage.setTitle("Seller Page");
-        SellingProcess test  = fxmlLoader.getController();
-        test.setUsername(username);
         stage.setScene(scene);
         stage.show();
     }
@@ -39,9 +44,7 @@ public class MainMenu {
     @FXML
     private void openBuyerPage(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        FXMLLoader fxmlLoader = new FXMLLoader(BuyerPage.class.getResource("/Bookstore/scenes/BuyingProcess.fxml"));
-
+        FXMLLoader fxmlLoader = new FXMLLoader(BuyerPage.class.getResource("/Bookstore/scenes/buyer/BuyingProcess.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 1200);
         stage.setTitle("Buyer Page");
         stage.setScene(scene);
@@ -49,7 +52,7 @@ public class MainMenu {
     }
 
     @FXML
-    private void openAdminPage(ActionEvent event) throws IOException {
+    private void openAdminPage(ActionEvent event) throws IOException, SQLException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         AdminDashboard adminDash = new AdminDashboard(username);
         Scene scene = new Scene(adminDash.getRoot(), 800, 1200);

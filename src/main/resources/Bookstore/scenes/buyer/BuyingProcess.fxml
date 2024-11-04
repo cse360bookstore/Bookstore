@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Bookstore.scenes.buyer.BuyingProcess">
+    <top>
+        <HBox  alignment="CENTER_LEFT" >
+            <Label text="Available Books for Purchase" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <Button text="Refresh" onAction="#handleRefreshAction" style="-fx-background-color: #4f72bf; -fx-text-fill: white;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" >
+            <VBox fx:id="booksContainer" spacing="15" />
+        </ScrollPane>
+    </center>
+
+</BorderPane>

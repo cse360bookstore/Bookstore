@@ -1,7 +1,12 @@
 package Bookstore.scenes.admin;
 
 import java.io.File;
+import java.sql.SQLException;
 
+import Bookstore.SqlConnectionPoolFactory;
+import Bookstore.dataManagers.AdminManager;
+import Bookstore.dataManagers.BookManager;
+import Bookstore.models.UserSession;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -18,6 +23,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
+import javax.sql.DataSource;
+
 public class AdminDashboard{
 
 	private ImageView imageSelected;
@@ -26,12 +33,13 @@ public class AdminDashboard{
 	private StatisticsView statisticsView;
 	private String name;
 
-	public AdminDashboard() {
+
+	public AdminDashboard() throws SQLException {
 		this.transactionView = new TransactionView();
 		this.statisticsView = new StatisticsView();
 		createUI();
 	}
-	public AdminDashboard(String name) {
+	public AdminDashboard(String name) throws SQLException {
 		this.transactionView = new TransactionView();
 		this.statisticsView = new StatisticsView();
 		this.name = name;
@@ -83,8 +91,12 @@ public class AdminDashboard{
 			transactionButton.setStyle("-fx-background-color: Maroon");
 			settingsButton.setStyle("-fx-background-color: Gray");
 			statisticsButton.setStyle("-fx-background-color: Gray");
-			displayTransactionView();
-		});
+            try {
+                displayTransactionView();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
 		// Statistics scene
 		statisticsButton.setOnAction(event -> {
@@ -102,7 +114,13 @@ public class AdminDashboard{
 		});
 
 		// Define events for each button
-		transactionButton.setOnAction(event -> displayTransactionView());
+		transactionButton.setOnAction(event -> {
+            try {
+                displayTransactionView();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
 		// Keep buttons organized horizontally
 		HBox hBox = new HBox(80);
@@ -121,8 +139,9 @@ public class AdminDashboard{
 		userInfo.setArcWidth(10.0d);
 
 		// Username text
-		System.out.println(name);
-		Text userName = new Text(name);
+		UserSession session = UserSession.getInstance();
+		Text userName = new Text(session.getUsername());
+
 		StackPane.setAlignment(userName, Pos.BOTTOM_CENTER);
 		AnchorPane.setTopAnchor(userInfoStack, 10.0);
 		AnchorPane.setLeftAnchor(userInfoStack, 10.0);
@@ -181,7 +200,7 @@ public class AdminDashboard{
 
 	}
 
-	private void displayTransactionView() {
+	private void displayTransactionView() throws SQLException {
 		transactionView = new TransactionView();
 		AnchorPane transactionPane = transactionView.getRoot();
 		anchorPane.getChildren().removeIf(node -> node instanceof AnchorPane && node != getRoot());

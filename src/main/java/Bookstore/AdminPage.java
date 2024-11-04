@@ -6,6 +6,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
+
 public class AdminPage extends Application {
 	
 	private Stage primaryStage;
@@ -15,9 +17,8 @@ public class AdminPage extends Application {
 		this.primaryStage = primaryStage;
 	}
 	
-	public void loadScene() {
+	public void loadScene() throws SQLException {
 		AdminDashboard adminDash = new AdminDashboard();
-		
 		adminScene = new Scene(adminDash.getRoot(), 800, 850);
 		
 	}
