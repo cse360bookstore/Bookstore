@@ -54,6 +54,27 @@
             <artifactId>mysql-socket-factory-connector-j-8</artifactId>
             <version>1.20.1</version>
         </dependency>
+        
+         <dependency>
+      		<groupId>com.google.cloud.sql</groupId>
+      		<artifactId>mysql-socket-factory</artifactId>
+      		<version>1.13.1</version>
+     		<scope>compile</scope>
+    	</dependency>
+    	
+    	 <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.0-alpha0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.0-alpha0</version>
+            <scope>runtime</scope>
+        </dependency>
+        
         <dependency>
             <!-- HikariCP is used to create and manage connection pools and datasources for
             JDBC -->
