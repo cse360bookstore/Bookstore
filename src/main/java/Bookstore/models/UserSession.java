@@ -8,6 +8,7 @@ public class UserSession {
     private String email;
     private String firstName;
     private String lastName;
+    private UserRole userRole;
 
     public UserSession() {}
 
@@ -59,6 +60,13 @@ public class UserSession {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    public UserRole getUserRole() {
+        return userRole;
+    }
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
 
 
     public void clearSession() {

@@ -3,6 +3,7 @@ package Bookstore.dataManagers;
 import Bookstore.models.BookForSale;
 import Bookstore.models.BookWithUser;
 import Bookstore.models.Transaction;
+import Bookstore.models.UserRole;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -61,6 +62,7 @@ public class AdminManager {
     }
 
     public BookForSale updateBook(BookForSale book) throws SQLException {
+        System.out.println(book);
         String updateBookQuery = "UPDATE BooksForSale SET "
                 + "title = ?, "
                 + "category = ?, "
@@ -83,8 +85,9 @@ public class AdminManager {
             query.setString(5, book.getDescription());
             query.setDouble(6, book.getPrice());
             query.setInt(7, book.getListedByUserID());
-            query.setTimestamp(8, java.sql.Timestamp.valueOf(book.getListedAt())); // Convert LocalDateTime to Timestamp
-            query.setString(9, book.getStatus().name()); // Enum to String
+            query.setTimestamp(8, java.sql.Timestamp.valueOf(book.getListedAt()));
+            query.setString(9, book.getStatus().name());
+            System.out.println(book.getStatus().name());
             query.setInt(10, book.getBookID());
 
             int rowsUpdated = query.executeUpdate();
@@ -137,5 +140,17 @@ public class AdminManager {
         }
 
         return booksForSale;
+    }
+    public void updateUserRole(int userID, UserRole role) throws SQLException {
+        String sql = "{CALL UpdateUserRole(?, ?)}";
+
+        try (Connection connection = dataSource.getConnection();
+             CallableStatement stmt = connection.prepareCall(sql)) {
+
+            stmt.setInt(1, userID);
+            stmt.setString(2, role.name());
+
+            stmt.executeUpdate();
+        }
     }
 }

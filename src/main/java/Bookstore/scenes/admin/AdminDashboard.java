@@ -7,6 +7,7 @@ import Bookstore.SqlConnectionPoolFactory;
 import Bookstore.dataManagers.AdminManager;
 import Bookstore.dataManagers.BookManager;
 import Bookstore.models.BookForSale;
+import Bookstore.models.UserRole;
 import Bookstore.models.UserSession;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -34,6 +35,8 @@ public class AdminDashboard{
 	private StatisticsView statisticsView;
 	private BookForSaleView bookForSaleView;
 	private String name;
+	DataSource dataSource = SqlConnectionPoolFactory.createConnectionPool();
+	private final AdminManager adminManager = new AdminManager(dataSource);
 
 
 	public AdminDashboard() throws SQLException {
@@ -46,6 +49,7 @@ public class AdminDashboard{
 		this.statisticsView = new StatisticsView();
 		this.name = name;
 		createUI();
+		testupdateroles();
 	}
 	public void setName(String name){
 		this.name = name;
@@ -247,6 +251,12 @@ public class AdminDashboard{
 		AnchorPane.setBottomAnchor(bookforsalepane, 250.0);
 
 		anchorPane.getChildren().add(bookforsalepane);
+	}
+	// todo: leverage this into its own page
+	public void testupdateroles() throws SQLException {
+
+		adminManager.updateUserRole(4, UserRole.ADMIN);
+
 	}
 }
 

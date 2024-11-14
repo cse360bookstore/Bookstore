@@ -147,10 +147,11 @@ public class BookForSaleView {
             book.setAuthor(authorField.getText());
             book.setDescription(descriptionArea.getText());
             book.setPrice(Double.parseDouble(priceField.getText()));
+            System.out.println("Status of book in submit" + book.getStatus());
 
             try {
                 adminManager.updateBook(book);
-                AlertHelper.showAlert(Alert.AlertType.INFORMATION, "Success", "Book updated sucessfully");
+                AlertHelper.showAlert(Alert.AlertType.INFORMATION, "Success", "Book updated successfully");
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 AlertHelper.showAlert(Alert.AlertType.ERROR, "Error", "Failed to Update book" + ex.getMessage());
