@@ -9,15 +9,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.text.Font?>
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="0.0" prefWidth="0.0" type="VBox" alignment="TOP_CENTER" xmlns:fx="http://javafx.com/fxml/1">
-    <Text fx:id="sectionTitle" fill="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="Default Text">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" type="VBox" alignment="CENTER" spacing="20" xmlns:fx="http://javafx.com/fxml/1" style="-fx-background-color: #F0F0F0; -fx-border-color: #8C1D40; -fx-border-width: 2; -fx-border-radius: 10px;">
+    <Text fx:id="sectionTitle" fill="#8C1D40" strokeType="OUTSIDE" strokeWidth="0.0" text="Default Text" textAlignment="CENTER">
         <font>
-            <Font size="48.0" />
+            <Font name="Arial Bold" size="36.0" />
         </font>
     </Text>
-    <HBox fx:id="sectionContent" alignment="CENTER"/>
+    <HBox fx:id="sectionContent" alignment="CENTER" spacing="15" style="-fx-background-radius: 10px;  -fx-border-width: 1; -fx-padding: 10;">
+
+    </HBox>
     <padding>
-        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
 </fx:root>
