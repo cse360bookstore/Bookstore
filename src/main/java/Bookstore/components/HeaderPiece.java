@@ -22,11 +22,6 @@ public class HeaderPiece extends HBox {
             throw new RuntimeException(e);
         }
     }
-    public enum HeaderType{
-        START,
-        MIDDLE,
-        END,
-    }
     public enum ColorType{
         ACTIVE,
         INACTIVE,
@@ -34,7 +29,7 @@ public class HeaderPiece extends HBox {
     }
 
     private String message;
-    private HeaderType type;
+
     private String Color;
     private ColorType colorType;
 
@@ -48,14 +43,6 @@ public class HeaderPiece extends HBox {
 
     }
 
-    public HeaderType getType() {
-        return type;
-    }
-
-    public void setType(HeaderType type) {
-        this.type = type;
-
-    }
 
     public String getColor() {
         return Color;

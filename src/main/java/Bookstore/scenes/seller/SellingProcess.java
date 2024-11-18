@@ -12,11 +12,14 @@ import Bookstore.scenes.MainMenu;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -24,6 +27,7 @@ import javafx.stage.Stage;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,22 +36,10 @@ import java.util.ResourceBundle;
 public class SellingProcess implements Initializable {
     DataSource dataSource = SqlConnectionPoolFactory.createConnectionPool();
     private final BookManager bookManager = new BookManager(dataSource);
+    private List<ImgBox> ConditionImgBoxes = new ArrayList<>();
+    private List<ImgBox> CategoryImgBoxes = new ArrayList<>();
+    private final String IMGBOX_BASE = "-fx-border-radius: 10px; -fx-border-width: 4;  -fx-background-radius: 10;";
 
-
-    @FXML
-    private Label selectedCategoryLabel;
-    @FXML
-    private Label selectedConditionLabel;
-    @FXML
-    private Label selectedPriceLabel;
-    @FXML
-    private Label offeredPriceLabel;
-    @FXML
-    private Label bookTitleLabel;
-    @FXML
-    private Label bookDescriptionLabel;
-    @FXML
-    private Label bookAuthorLabel;
 
     // Make the header maroon as you complete steps
     private List<HeaderPiece> passedHeaderPieces = new ArrayList<>();
@@ -109,6 +101,8 @@ public class SellingProcess implements Initializable {
         container2.getChildren().add(PriceHeader);
         container2.getChildren().add(BookDetailsHeader);
         container2.getChildren().add(ConfirmHeader);
+
+        switchPage(CategoryHeader, "CategoryPage");
     }
 
     private SellingProcessSection createCategoryContent() {
@@ -116,32 +110,50 @@ public class SellingProcess implements Initializable {
         contentSection.setTitle("What is the category of your book?");
         HBox container = new HBox();
 
-        var imgbox = new ImgBox();
-        imgbox.setSrc(imgPrefix + "sparky/Darwin.png");
-        imgbox.setImgBoxText("Natural Science");
-        imgbox.setClickListener(this::updateCategoryField);
+        var DarwinBox = new ImgBox();
+        DarwinBox.setSrc(imgPrefix + "sparky/Darwin.png");
+        DarwinBox.setImgBoxText("Natural Science");
+        DarwinBox.setClickListener(category -> updateCategoryField(category, DarwinBox));
+        CategoryImgBoxes.add(DarwinBox);
 
-        var imgbox2 = new ImgBox();
-        imgbox2.setSrc(imgPrefix + "sparky/Turing.png");
-        imgbox2.setImgBoxText("Computer Science");
-        imgbox2.setClickListener(this::updateCategoryField);
+        var TuringBox = new ImgBox();
+        TuringBox.setSrc(imgPrefix + "sparky/Turing.png");
+        TuringBox.setImgBoxText("Computer Science");
+        TuringBox.setClickListener(category -> updateCategoryField(category, TuringBox));
+        CategoryImgBoxes.add(TuringBox);
 
-        var imgbox3 = new ImgBox();
-        imgbox3.setSrc(imgPrefix + "sparky/shakespear.png");
-        imgbox3.setImgBoxText("English Language");
-        imgbox3.setClickListener(this::updateCategoryField);
+        var ShakespeareBox = new ImgBox();
+        ShakespeareBox.setSrc(imgPrefix + "sparky/shakespear.png");
+        ShakespeareBox.setImgBoxText("English Language");
+        ShakespeareBox.setClickListener(category -> updateCategoryField(category, ShakespeareBox));
+        CategoryImgBoxes.add(ShakespeareBox);
 
-        var imgbox4 = new ImgBox();
-        imgbox4.setSrc(imgPrefix + "sparky/Einstein.png");
-        imgbox4.setImgBoxText("Science");
-        imgbox4.setClickListener(this::updateCategoryField);
 
-        var imgbox5 = new ImgBox();
-        imgbox5.setSrc(imgPrefix + "sparky/sparkay.png");
-        imgbox5.setImgBoxText("Other");
-        imgbox5.setClickListener(this::updateCategoryField);
+        var EinsteinBox = new ImgBox();
+        EinsteinBox.setSrc(imgPrefix + "sparky/Einstein.png");
+        EinsteinBox.setImgBoxText("Science");
+        EinsteinBox.setClickListener(category -> updateCategoryField(category, EinsteinBox));
+        CategoryImgBoxes.add(EinsteinBox);
 
-        container.getChildren().addAll(imgbox, imgbox2, imgbox3, imgbox4, imgbox5);
+        var OtherBox = new ImgBox();
+        OtherBox.setSrc(imgPrefix + "sparky/sparkay.png");
+        OtherBox.setImgBoxText("Other");
+        OtherBox.setClickListener(category -> updateCategoryField(category, OtherBox));
+        CategoryImgBoxes.add(OtherBox);
+
+        // if the selected category is passed in then they are navigating back to the page
+        for (ImgBox imgBox : CategoryImgBoxes) {
+            String imgBoxText = imgBox.getImgBoxText().getText();
+            if (imgBoxText.equals(selectedCategory)) {
+                imgBox.setStyle(IMGBOX_BASE + "-fx-background-color: #ac3356; -fx-border-color: #FFC627;");
+                imgBox.getImgBoxText().setStyle("-fx-fill: white;");
+            } else {
+                imgBox.setStyle(IMGBOX_BASE);
+                imgBox.getImgBoxText().setStyle("-fx-fill: black;");
+            }
+        }
+
+        container.getChildren().addAll(DarwinBox, TuringBox, ShakespeareBox, EinsteinBox, OtherBox);
 
         contentSection.setContent(container);
         return contentSection;
@@ -152,22 +164,37 @@ public class SellingProcess implements Initializable {
         contentSection.setTitle("What is the condition of your book?");
         HBox container = new HBox();
 
-        var imgbox = new ImgBox();
-        imgbox.setSrc(imgPrefix + "pitchfork/LikeNew.png");
-        imgbox.setImgBoxText("Used Like New");
-        imgbox.setClickListener(this::updateConditionField);
+        var LikeNewBox = new ImgBox();
+        LikeNewBox.setSrc(imgPrefix + "pitchfork/LikeNew.png");
+        LikeNewBox.setImgBoxText("Used Like New");
+        LikeNewBox.setClickListener(condition -> updateConditionField(condition, LikeNewBox));
+        ConditionImgBoxes.add(LikeNewBox);
 
-        var imgbox2 = new ImgBox();
-        imgbox2.setSrc(imgPrefix + "pitchfork/ModerateUse.png");
-        imgbox2.setImgBoxText("Moderately Used");
-        imgbox2.setClickListener(this::updateConditionField);
 
-        var imgbox3 = new ImgBox();
-        imgbox3.setSrc(imgPrefix + "pitchfork/HeavilyUsed.png");
-        imgbox3.setImgBoxText("Heavily Used");
-        imgbox3.setClickListener(this::updateConditionField);
+        var ModerateUseBox = new ImgBox();
+        ModerateUseBox.setSrc(imgPrefix + "pitchfork/ModerateUse.png");
+        ModerateUseBox.setImgBoxText("Moderately Used");
+        ModerateUseBox.setClickListener(condition -> updateConditionField(condition, ModerateUseBox));
+        ConditionImgBoxes.add(ModerateUseBox);
 
-        container.getChildren().addAll(imgbox, imgbox2, imgbox3);
+        var HeavyUseBox = new ImgBox();
+        HeavyUseBox.setSrc(imgPrefix + "pitchfork/HeavilyUsed.png");
+        HeavyUseBox.setImgBoxText("Heavily Used");
+        HeavyUseBox.setClickListener(condition -> updateConditionField(condition, HeavyUseBox));
+        ConditionImgBoxes.add(HeavyUseBox);
+
+        for (ImgBox imgBox : ConditionImgBoxes) {
+            String imgBoxText = imgBox.getImgBoxText().getText();
+            if (imgBoxText.equals(selectedCondition)) {
+                imgBox.setStyle(IMGBOX_BASE + "-fx-background-color: #ac3356; -fx-border-color: #FFC627;");
+                imgBox.getImgBoxText().setStyle("-fx-fill: white;");
+            } else {
+                imgBox.setStyle(IMGBOX_BASE);
+                imgBox.getImgBoxText().setStyle("-fx-fill: black;");
+            }
+        }
+
+        container.getChildren().addAll(LikeNewBox, ModerateUseBox, HeavyUseBox);
 
         contentSection.setContent(container);
         return contentSection;
@@ -191,11 +218,10 @@ public class SellingProcess implements Initializable {
             String price = priceInput.getText();
             try {
                 this.originalPrice = Double.parseDouble(price);
-                this.selectedPriceLabel.setText("Inputted Price: $" + price);
                 calculateOfferedPrice();
 
             } catch (NumberFormatException e) {
-
+                AlertHelper.showAlert(Alert.AlertType.ERROR, "Validation Error:", "Invalid price entered");
             }
         });
 
@@ -206,61 +232,75 @@ public class SellingProcess implements Initializable {
         SellingProcessSection contentSection = new SellingProcessSection();
         contentSection.setTitle("Enter Book Details");
 
-        VBox container = new VBox();
-        container.setSpacing(10);
+        GridPane container = new GridPane();
+        container.setHgap(10);
+        container.setVgap(10);
+        container.setPadding(new Insets(10));
 
-        HBox titleBox = new HBox();
-        Label titleLabel = new Label("Title: ");
+        Label titleLabel = new Label("Title:");
         TextField titleInput = new TextField();
         titleInput.setPromptText("Enter book title");
-        titleBox.getChildren().addAll(titleLabel, titleInput);
 
-        HBox descriptionBox = new HBox();
-        Label descriptionLabel = new Label("Description: ");
+        Label descriptionLabel = new Label("Description:");
         TextField descriptionInput = new TextField();
         descriptionInput.setPromptText("Enter book description");
-        descriptionBox.getChildren().addAll(descriptionLabel, descriptionInput);
 
-        HBox authorBox = new HBox();
-        Label authorLabel = new Label("Author: ");
+        Label authorLabel = new Label("Author:");
         TextField authorInput = new TextField();
         authorInput.setPromptText("Enter author's name");
-        authorBox.getChildren().addAll(authorLabel, authorInput);
 
-        container.getChildren().addAll(titleBox, descriptionBox, authorBox);
+        container.add(titleLabel, 0, 0);
+        container.add(titleInput, 1, 0);
+        container.add(descriptionLabel, 0, 1);
+        container.add(descriptionInput, 1, 1);
+        container.add(authorLabel, 0, 2);
+        container.add(authorInput, 1, 2);
+
+        Button submitButton = new Button("Submit");
+        container.add(submitButton, 1, 3);
+
+        submitButton.setOnAction(event -> {
+            boolean valid = true;
+            StringBuilder errorMessage = new StringBuilder();
+
+            String title = titleInput.getText().trim();
+            if (title.isEmpty()) {
+                valid = false;
+                errorMessage.append("- Title cannot be empty.\n");
+            } else {
+                selectedTitle = title;
+            }
+
+            String description = descriptionInput.getText().trim();
+            if (description.isEmpty()) {
+                valid = false;
+                errorMessage.append("- Description cannot be empty.\n");
+            } else {
+                selectedDescription = description;
+            }
+
+            String author = authorInput.getText().trim();
+            if (author.isEmpty()) {
+                valid = false;
+                errorMessage.append("- Author cannot be empty.\n");
+            } else {
+                selectedAuthor = author;
+            }
+
+            if (!valid) {
+                AlertHelper.showAlert(Alert.AlertType.ERROR, "Validation Error:", errorMessage.toString());
+            }
+            else {
+                if (!passedHeaderPieces.contains(BookDetailsHeader)) {
+                    BookDetailsHeader.setColorType(HeaderPiece.ColorType.PASSED);
+                    passedHeaderPieces.add(BookDetailsHeader);
+                }
+            }
+        });
 
         HBox outerContainer = new HBox(container);
+        outerContainer.setAlignment(Pos.CENTER);
         contentSection.setContent(outerContainer);
-
-        titleInput.setOnAction(event -> {
-            String title = titleInput.getText().trim();
-            selectedTitle =title;
-            if (!title.isEmpty()) {
-                this.bookTitleLabel.setText("Title: " + title);
-            } else {
-                AlertHelper.showAlert(Alert.AlertType.ERROR, "Validation Error:", "Title Cannot be empty.");
-            }
-        });
-
-        descriptionInput.setOnAction(event -> {
-            String description = descriptionInput.getText().trim();
-            selectedDescription =description;
-            if (!description.isEmpty()) {
-                this.bookDescriptionLabel.setText("Description: " + description);
-            } else {
-                AlertHelper.showAlert(Alert.AlertType.ERROR, "Validation Error:", "Description cannot be empty.");
-            }
-        });
-
-        authorInput.setOnAction(event -> {
-            String author = authorInput.getText().trim();
-            selectedAuthor =author;
-            if (!author.isEmpty()) {
-                this.bookAuthorLabel.setText("Author: " + author);
-            } else {
-                AlertHelper.showAlert(Alert.AlertType.ERROR, "Validation Error:", "Author cannot be empty.");
-            }
-        });
 
         return contentSection;
     }
@@ -270,21 +310,25 @@ public class SellingProcess implements Initializable {
         SellingProcessSection contentSection = new SellingProcessSection();
         contentSection.setTitle("Based on the category,\ncondition, and original price,\nWe can offer you:");
 
+
         HBox container = new HBox();
         container.setSpacing(10);
 
-        Label priceLabel = new Label(this.offeredPriceLabel.getText());
+        Label offeredPriceLabel = new Label(String.format("$%.2f", offeredPrice));
+        offeredPriceLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+
+
         Button listBookButton = new Button("List My Book");
         listBookButton.setOnAction(event -> {
             try {
                 listMyBook();
             } catch (SQLException e) {
                 e.printStackTrace();
-                AlertHelper.showAlert(Alert.AlertType.ERROR, "Database Error:", "Error listing book");
+                AlertHelper.showAlert(Alert.AlertType.ERROR, "Database Error:", "Error listing book " + e.getMessage());
             }
         });
 
-        container.getChildren().addAll(priceLabel,listBookButton);
+        container.getChildren().addAll(offeredPriceLabel, listBookButton);
 
         contentSection.setContent(container);
         return contentSection;
@@ -304,7 +348,6 @@ public class SellingProcess implements Initializable {
     }
 
     private void loadPage(String pageName) {
-        System.out.println("Loading page: " + pageName);
         contentArea.getChildren().clear();
         switch (pageName) {
             case "CategoryPage":
@@ -325,18 +368,27 @@ public class SellingProcess implements Initializable {
         }
     }
 
-    private void updateCategoryField(String category) {
-        selectedCategoryLabel.setText("Selected Category: " + category);
+    private void updateCategoryField(String category, ImgBox clickedImgBox) {
         this.selectedCategory = category;
+        resetImgBoxColors(CategoryImgBoxes);
+
+        clickedImgBox.setStyle(IMGBOX_BASE + "-fx-background-color: #ac3356; -fx-border-color: #FFC627;");
+        clickedImgBox.getImgBoxText().setStyle("-fx-fill: white;");
+
         if (!passedHeaderPieces.contains(CategoryHeader)) {
             CategoryHeader.setColorType(HeaderPiece.ColorType.PASSED);
             passedHeaderPieces.add(CategoryHeader);
         }
     }
 
-    private void updateConditionField(String condition) {
-        selectedConditionLabel.setText("Selected Condition: " + condition);
+    private void updateConditionField(String condition, ImgBox clickedImgBox) {
+
         this.selectedCondition = condition;
+
+        resetImgBoxColors(ConditionImgBoxes);
+
+        clickedImgBox.setStyle(IMGBOX_BASE + "-fx-background-color: #ac3356; -fx-border-color: #FFC627;");
+
         if (!passedHeaderPieces.contains(ConditionHeader)) {
             ConditionHeader.setColorType(HeaderPiece.ColorType.PASSED);
             passedHeaderPieces.add(ConditionHeader);
@@ -345,7 +397,7 @@ public class SellingProcess implements Initializable {
 
     private void calculateOfferedPrice() {
         if (originalPrice <= 0) {
-            offeredPriceLabel.setText("Offered Price: N/A");
+
             return;
         }
         if (!passedHeaderPieces.contains(PriceHeader)) {
@@ -393,10 +445,8 @@ public class SellingProcess implements Initializable {
 
         reductionFactor = Math.max(reductionFactor, 0.1);
 
-        double offeredPrice2 = originalPrice * reductionFactor;
-        offeredPriceLabel.setText(String.format("Offered Price: $%.2f", offeredPrice2));
 
-        this.offeredPrice = offeredPrice2;
+        this.offeredPrice = originalPrice * reductionFactor;
     }
 
 
@@ -407,12 +457,17 @@ public class SellingProcess implements Initializable {
         UserSession session = UserSession.getInstance();
         bookManager.insertBook(myBook, session.getUserId());
 
-
         try {
             goToMainMenu();
         } catch (IOException e) {
             e.printStackTrace();
             AlertHelper.showAlert(Alert.AlertType.ERROR, "Error", "Failed to load the Main Menu.");
+        }
+    }
+    private void resetImgBoxColors(List<ImgBox> boxes) {
+        for (ImgBox imgBox : boxes) {
+            imgBox.setStyle(IMGBOX_BASE);
+            imgBox.getImgBoxText().setStyle("-fx-fill: black;");
         }
     }
 

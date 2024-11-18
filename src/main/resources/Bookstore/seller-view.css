@@ -13,3 +13,17 @@
 .seller-section:hover Text {
     -fx-text-fill: white;
 }
+.imgbox{
+    /* asu gold */
+    -fx-background-color: #FFC627;
+    -fx-border-color: #8C1D40;
+}
+.imgbox:hover{
+    /* asu maroon */
+    -fx-background-color: #ac3356;
+    -fx-border-color:  #FFC627;
+
+}
+.imgbox:hover Text{
+    -fx-text-fill: white;
+}
