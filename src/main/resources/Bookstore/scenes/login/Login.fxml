@@ -12,13 +12,13 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:controller="Bookstore.scenes.Login" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <AnchorPane prefHeight="400.0" prefWidth="198.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="97.0" fitWidth="168.0" focusTraversable="true" layoutX="18.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../../Pictures/ASU%20Big%20Logo.png" />
+                  <Image url="@../../images/asuLogo/ASU%20Big%20Logo.png" />
                </image>
                <viewport>
                   <Rectangle2D />
@@ -41,7 +41,7 @@
             <Button layoutX="170.0" layoutY="289.0" mnemonicParsing="false" onAction="#handleLogin" style="-fx-background-color: #901340;" text="Login" textFill="WHITE" />
             <ImageView fitHeight="115.0" fitWidth="377.0" layoutX="7.0" layoutY="26.0">
                <image>
-                  <Image url="@../../../../../../../../Downloads/Arizona-State-University-Books-11-15-2024%20(1).png" />
+                  <Image url="@../../images/asuLogo/Arizona-State-University-Books-11-15-2024%20(1).png" />
                </image>
             </ImageView>
          </children>
