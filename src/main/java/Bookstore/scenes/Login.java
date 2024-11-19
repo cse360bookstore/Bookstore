@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.lang.classfile.Label;
 import java.sql.SQLException;
 
 public class Login {
@@ -21,7 +22,7 @@ public class Login {
     private String password;
     private UserSession user;
     DataSource dataSource = SqlConnectionPoolFactory.createConnectionPool();
-    private final AuthManager authManager = new AuthManager(dataSource);
+    private final AuthManager authManager = new AuthManager(dataSource);    
 
     @FXML
     private TextField usernameField;

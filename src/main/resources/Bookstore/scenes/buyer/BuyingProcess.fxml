@@ -13,9 +13,10 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="Bookstore.scenes.buyer.BuyingProcess">
     <top>
-        <HBox  alignment="CENTER_LEFT" >
+        <HBox  alignment="CENTER_LEFT" spacing = "15">
             <Label text="Available Books for Purchase" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
             <Button text="Refresh" onAction="#handleRefreshAction" style="-fx-background-color: #4f72bf; -fx-text-fill: white;"/>
+            <Button text="Back" onAction="#goBack"/> 
         </HBox>
     </top>
 

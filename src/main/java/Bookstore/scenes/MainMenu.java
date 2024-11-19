@@ -60,4 +60,13 @@ public class MainMenu {
         stage.setScene(scene);
         stage.show();
     }
+    
+    @FXML
+    private void logout(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();       
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Bookstore/scenes/Login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

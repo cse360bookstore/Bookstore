@@ -1,14 +1,20 @@
 package Bookstore.scenes.admin;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import Bookstore.SqlConnectionPoolFactory;
 import Bookstore.dataManagers.AdminManager;
 import Bookstore.dataManagers.BookManager;
 import Bookstore.models.UserSession;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +28,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import javax.sql.DataSource;
 
@@ -141,6 +148,25 @@ public class AdminDashboard{
 		// Username text
 		UserSession session = UserSession.getInstance();
 		Text userName = new Text(session.getUsername());
+		
+		// back button
+		Button back = new Button("Back");
+		back.setOnAction(event -> {
+			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();       
+	        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Bookstore/scenes/MainMenu.fxml"));
+	        Scene scene = null;
+			try {
+				scene = new Scene(fxmlLoader.load(), 800, 600);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        stage.setScene(scene);
+	        stage.show();
+        });
+		AnchorPane.setTopAnchor(back, 10.0);
+		AnchorPane.setRightAnchor(back, 10.0);
+		anchorPane.getChildren().add(back);
 
 		StackPane.setAlignment(userName, Pos.BOTTOM_CENTER);
 		AnchorPane.setTopAnchor(userInfoStack, 10.0);
@@ -224,5 +250,6 @@ public class AdminDashboard{
 
 		anchorPane.getChildren().add(statisticsPane);
 	}
+	
 }
 

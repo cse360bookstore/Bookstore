@@ -7,4 +7,5 @@
     <Button text="Go to Seller Page" onAction="#openSellerPage" />
     <Button text="Go to Buyer Page" onAction="#openBuyerPage" />
     <Button text="Go to Admin Page" onAction="#openAdminPage" />
+    <Button text="Logout" onAction="#logout"/>
 </VBox>
