@@ -9,6 +9,7 @@ public class Transaction {
     private String category;
     private String bookTitle;
     private LocalDateTime soldDate;
+    private int count;
 
     // Constructor
     public Transaction(String sellerName, String buyerName, double soldPrice,
@@ -19,6 +20,12 @@ public class Transaction {
         this.category = category;
         this.bookTitle = bookTitle;
         this.soldDate = soldDate;
+    }
+    
+    // Constructor for category and count
+    public Transaction(String category, int count) {
+    	this.category = category;
+    	this.count = count;
     }
 
     public String getSellerName() {
@@ -68,6 +75,14 @@ public class Transaction {
     public void setSoldDate(LocalDateTime soldDate) {
         this.soldDate = soldDate;
     }
+    
+    public int getCount() {
+    	return count;
+    }
+    
+    public void setCount(int count) {
+    	this.count = count;
+    }
 
     // toString Method for Debugging
     @Override
@@ -78,6 +93,8 @@ public class Transaction {
                 ", soldPrice=" + soldPrice +
                 ", category='" + category + '\'' +
                 ", bookTitle='" + bookTitle + '\'' +
-                ", soldDate=" + soldDate + " '}'";
+                ", soldDate=" + soldDate + " '}'" +
+        		", count=" + count +
+        		"}";
     }
 }

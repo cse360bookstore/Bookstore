@@ -35,6 +35,8 @@ public class AdminDashboard{
 	private StatisticsView statisticsView;
 	private BookForSaleView bookForSaleView;
 	private String name;
+	private StackPane userInfoStack;
+	private Circle userImage;
 	DataSource dataSource = SqlConnectionPoolFactory.createConnectionPool();
 	private final AdminManager adminManager = new AdminManager(dataSource);
 
@@ -149,7 +151,7 @@ public class AdminDashboard{
 		anchorPane.getChildren().add(hBox);
 
 	    // Stack all user info box
-		StackPane userInfoStack = new StackPane();
+		userInfoStack = new StackPane();
 
 		// Top left user info box
 		Rectangle userInfo = new Rectangle(150.0f, 150.0f, Color.MAROON);
@@ -175,7 +177,7 @@ public class AdminDashboard{
 		anchorPane.getChildren().add(userInfoStack);
 
 		// Create user image placeholder
-		Circle userImage = new Circle(50);
+		userImage = new Circle(50);
 		StackPane.setMargin(userImage, new Insets(0, 0, 20, 0));
 		userImage.setFill(Color.YELLOW);
 		StackPane.setAlignment(userImage, Pos.CENTER);
@@ -189,7 +191,6 @@ public class AdminDashboard{
 		AnchorPane.setTopAnchor(userImageUpload, 200.0);
 		AnchorPane.setLeftAnchor(userImageUpload, 10.0);
 
-
 		userInfoStack.getChildren().addAll(userInfo, userName, userInfoBox, userImage, userImageUpload);
 	}
 
@@ -201,18 +202,36 @@ public class AdminDashboard{
 		chooseImage.setTitle("Choose Image");
 		// Specify accepted file type
 		chooseImage.getExtensionFilters().addAll(
-				new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
+				new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", ".jpeg"));
 
 		File selectedFile = chooseImage.showOpenDialog(anchorPane.getScene().getWindow());
 		if(selectedFile != null) {
+			
 			// Set image file as profile picture
 			Image profilePic = new Image(selectedFile.toURI().toString());
-			// was userImage
 			imageSelected = new ImageView(profilePic);
+			
 			// Image dimensions
-			imageSelected.setFitWidth(40);
-			imageSelected.setFitHeight(40);
+			double diameter = userImage.getRadius() * 2;
+			imageSelected.setFitWidth(diameter);
+			imageSelected.setFitHeight(diameter);
 			imageSelected.setPreserveRatio(true);
+		
+			// center image 
+			imageSelected.setClip(userImage);
+			//imageSelected.setSmooth(true);
+			//imageSelected.setCache(true);
+			
+			// remove existing placeholder 
+			userInfoStack.getChildren().removeIf(node -> node instanceof ImageView);
+			// add new image 
+			userInfoStack.getChildren().add(imageSelected);
+			
+			// center within StackPane
+			StackPane.setAlignment(imageSelected, Pos.CENTER);
+			
+			// apply clip after positioning
+			//imageSelected.setClip(userImage);
 
 		}
 
