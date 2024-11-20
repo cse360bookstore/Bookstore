@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -38,8 +37,7 @@
          <children>
             <TextField fx:id="usernameField" layoutX="55.0" layoutY="161.0" prefHeight="25.0" prefWidth="281.0" promptText="Enter ASU Email" />
             <PasswordField fx:id="passwordField" layoutX="56.0" layoutY="200.0" prefHeight="25.0" prefWidth="280.0" promptText="Enter Password" />
-            <ComboBox layoutX="121.0" layoutY="240.0" opacity="0.64" prefWidth="150.0" promptText="Enter User Role" />
-            <Button layoutX="170.0" layoutY="289.0" mnemonicParsing="false" onAction="#handleLogin" style="-fx-background-color: #901340;" text="Login" textFill="WHITE" />
+            <Button layoutX="173.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleLogin" style="-fx-background-color: #901340;" text="Login" textFill="WHITE" />
             <ImageView fitHeight="115.0" fitWidth="377.0" layoutX="7.0" layoutY="26.0">
                <image>
                   <Image url="@../../images/asuLogo/Arizona-State-University-Books-11-15-2024%20(1).png" />
