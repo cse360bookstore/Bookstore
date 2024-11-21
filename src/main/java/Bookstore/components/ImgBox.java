@@ -66,6 +66,7 @@ public class ImgBox extends VBox {
         if (clickListener != null) {
             clickListener.onImgBoxClick(ImgBoxText.getText());
         }
+
         System.out.println("Clicked: " + ImgBoxText.getText());
     }
 

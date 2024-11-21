@@ -10,14 +10,15 @@
 <VBox fx:id="container" alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="Bookstore.scenes.seller.SellingProcess">
     <HBox fx:id="container2" alignment="CENTER"/>
-    <VBox fx:id="contentArea"/>
-    <Label fx:id="selectedCategoryLabel" text="Selected Category: " />
-    <Label fx:id="selectedConditionLabel" text="Selected Condition: " />
-    <Label fx:id="selectedPriceLabel" text="Inputted Price: " />
-    <Label fx:id="offeredPriceLabel" text="Offered Price: " />
-    <Label fx:id="bookTitleLabel" text="Title: " />
-    <Label fx:id="bookDescriptionLabel" text="Description: " />
-    <Label fx:id="bookAuthorLabel" text="Author: " />
+
+    <VBox fx:id="contentArea" spacing="15" alignment="CENTER"
+          style="-fx-border-width: 2;
+             -fx-border-radius: 10;
+             -fx-padding: 15;">
+    </VBox>
+
+
+
 
 
     <padding>
