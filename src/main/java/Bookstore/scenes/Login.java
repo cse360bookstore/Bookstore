@@ -3,6 +3,7 @@ package Bookstore.scenes;
 import Bookstore.SqlConnectionPoolFactory;
 import Bookstore.components.AlertHelper;
 import Bookstore.dataManagers.AuthManager;
+import Bookstore.models.UserRole;
 import Bookstore.models.UserSession;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -30,16 +31,18 @@ public class Login {
     private PasswordField passwordField;
 
 
+
+
     // Todo: make a form to register users
 /*
     public boolean registertest() {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        String email = "email_2";
-        String firstname = "firstname";
-        String lastname = "lastname";
+        String email = "email_3";
+        String firstname = "new_user";
+        String lastname = "new_user";
         try{
-            UserSession user =  authManager.register(username, password, email, firstname, lastname);
+            UserSession user =  authManager.register(username, password, email, firstname, lastname, UserRole.BUYER_SELLER_ADMIN);
         }
         catch (RuntimeException e){
             e.printStackTrace();
@@ -53,8 +56,8 @@ public class Login {
         return false;
 
     }
-*/
 
+*/
     
     @FXML
     private void handleLogin() {
@@ -63,7 +66,7 @@ public class Login {
 
         if (!username.isEmpty() && !password.isEmpty()) {
             // todo: only load page person selects and is validated for
-            //boolean loggedin  = registertest();
+           // boolean loggedin  = registertest();
 
             boolean loggedin = authManager.login(username, password);
 
@@ -73,7 +76,38 @@ public class Login {
                 System.out.println("Logged in successfully");
                 System.out.println("Username: " + username);
                 System.out.println("Password: " + password);
-                System.out.println(user);
+                System.out.println("testing get email");
+                user = UserSession.getInstance();
+
+                // todo: load a different main menu depending on roles returned here
+                System.out.println("User Roles: " + user.getUserRole());
+
+                // todo: refactor this to use in forgot password
+                /*
+                String email = authManager.getEmailFromUserName(username);
+                String email2 = user.getEmail();
+                System.out.println("Email from sp: " + email);
+                System.out.println("Email from logging in: " + email2);
+
+                String newpass = "s";
+                boolean loggedin2 = authManager.login(username, newpass);
+
+                if (!loggedin2) {
+                    System.out.println("Logged in didnt work with new pass");
+                }
+
+                boolean updated = authManager.updatePassword(4, newpass);
+
+                // after updating password,
+                if (updated) {
+                    System.out.println("Password updated");
+                    boolean loggedin3 = authManager.login(username, newpass);
+                    if (loggedin3) {
+                        System.out.println("Logged in successfully with the new password");
+                    }
+                }
+
+                 */
 
                 loadMainMenu();
             }
