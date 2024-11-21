@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" spacing="20" fx:controller="Bookstore.scenes.MainMenu">
-    <Button text="Go to Seller Page" onAction="#openSellerPage" />
+    <Button text="Go to Seller Page" onAction="#openSellerPage" disable="true"/>
     <Button text="Go to Buyer Page" onAction="#openBuyerPage" />
     <Button text="Go to Admin Page" onAction="#openAdminPage" />
 </VBox>
