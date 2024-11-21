@@ -209,7 +209,6 @@ public class AdminDashboard{
 			double diameter = userImage.getRadius() * 2;
 			imageSelected.setFitWidth(diameter);
 			imageSelected.setFitHeight(diameter);
-			//imageSelected.setPreserveRatio(false);
 			imageSelected.setPreserveRatio(false);
 		
 			// clip image to fit circle 
@@ -220,11 +219,8 @@ public class AdminDashboard{
 		
 			// remove existing placeholder 
 			userInfoStack.getChildren().removeIf(node -> node instanceof ImageView);
-		
-			// add clipped image 
-			userInfoStack.getChildren().add(imageSelected);
 			
-			// center within StackPane
+			userInfoStack.getChildren().add(imageSelected);
 			StackPane.setAlignment(imageSelected, Pos.CENTER);
 			
 			imageSelected.setTranslateY(-10);
