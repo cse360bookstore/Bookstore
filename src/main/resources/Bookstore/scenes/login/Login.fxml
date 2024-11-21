@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Bookstore.scenes.Login">
+   <left>
+      <AnchorPane prefHeight="400.0" prefWidth="198.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="97.0" fitWidth="168.0" focusTraversable="true" layoutX="18.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/asuLogo/ASU%20Big%20Logo.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+            <Text layoutX="24.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-effect: #50000;" text="ASU is a comprehensive public research university, measured not by whom it excludes, but by whom it includes and how they succeed; advancing research and discovery of public value; and assuming fundamental responsibility for the economic, social, cultural and overall health of the communities it serves." textAlignment="CENTER" wrappingWidth="161.13671875">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Text>
+         </children>
+      </AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="400.0" prefWidth="464.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="usernameField" layoutX="55.0" layoutY="161.0" prefHeight="25.0" prefWidth="281.0" promptText="Enter ASU Email" />
+            <PasswordField fx:id="passwordField" layoutX="56.0" layoutY="200.0" prefHeight="25.0" prefWidth="280.0" promptText="Enter Password" />
+            <Button layoutX="173.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleLogin" style="-fx-background-color: #901340;" text="Login" textFill="WHITE" />
+            <ImageView fitHeight="115.0" fitWidth="377.0" layoutX="7.0" layoutY="26.0">
+               <image>
+                  <Image url="@../../images/asuLogo/Arizona-State-University-Books-11-15-2024%20(1).png" />
+               </image>
+            </ImageView>
+            <Hyperlink fx:id="recoverPasswordLink" layoutX="145.0" layoutY="326.0" text="Forgot Password?" />
+            <Hyperlink fx:id="signUpLink" layoutX="133.0" layoutY="349.0" text="Register New Account" />
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>
