@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import Bookstore.SqlConnectionPoolFactory;
 import Bookstore.dataManagers.AdminManager;
 import Bookstore.dataManagers.BookManager;
+import Bookstore.models.BookForSale;
+import Bookstore.models.UserRole;
 import Bookstore.models.UserSession;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -31,7 +33,10 @@ public class AdminDashboard{
 	private AnchorPane anchorPane;
 	private TransactionView transactionView;
 	private StatisticsView statisticsView;
+	private BookForSaleView bookForSaleView;
 	private String name;
+	DataSource dataSource = SqlConnectionPoolFactory.createConnectionPool();
+	private final AdminManager adminManager = new AdminManager(dataSource);
 
 
 	public AdminDashboard() throws SQLException {
@@ -44,6 +49,7 @@ public class AdminDashboard{
 		this.statisticsView = new StatisticsView();
 		this.name = name;
 		createUI();
+		testupdateroles();
 	}
 	public void setName(String name){
 		this.name = name;
@@ -112,6 +118,18 @@ public class AdminDashboard{
 			transactionButton.setStyle("-fx-background-color: Gray");
 			statisticsButton.setStyle("-fx-background-color: Gray");
 		});
+
+		settingsButton.setOnAction(event -> {
+			settingsButton.setStyle("-fx-background-color: Maroon");
+			transactionButton.setStyle("-fx-background-color: Gray");
+			statisticsButton.setStyle("-fx-background-color: Gray");
+            try {
+                displayBookForSales();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
 
 		// Define events for each button
 		transactionButton.setOnAction(event -> {
@@ -223,6 +241,22 @@ public class AdminDashboard{
 		AnchorPane.setBottomAnchor(statisticsPane, 250.0);
 
 		anchorPane.getChildren().add(statisticsPane);
+	}
+	private void displayBookForSales() throws SQLException {
+		bookForSaleView = new BookForSaleView();
+		AnchorPane bookforsalepane = bookForSaleView.getRoot();
+		anchorPane.getChildren().removeIf(node -> node instanceof AnchorPane && node != getRoot());
+		AnchorPane.setTopAnchor(bookforsalepane, 300.0);
+		AnchorPane.setLeftAnchor(bookforsalepane, 50.0);
+		AnchorPane.setBottomAnchor(bookforsalepane, 250.0);
+
+		anchorPane.getChildren().add(bookforsalepane);
+	}
+	// todo: leverage this into its own page
+	public void testupdateroles() throws SQLException {
+
+		adminManager.updateUserRole(4, UserRole.ADMIN);
+
 	}
 }
 

@@ -1,4 +1,5 @@
 package Bookstore.dataManagers;
+import Bookstore.models.UserRole;
 import Bookstore.models.UserSession;
 
 import javax.sql.DataSource;
@@ -34,6 +35,10 @@ public class AuthManager {
                         session.setEmail(rs.getString("email"));
                         session.setFirstName(rs.getString("firstName"));
                         session.setLastName(rs.getString("lastName"));
+                        String roleString = rs.getString("role");
+
+                        UserRole role = UserRole.fromString(roleString);
+                        session.setUserRole(role);
                         return true;
                     }
                 }
@@ -47,8 +52,8 @@ public class AuthManager {
         return false;
     }
 
-    public UserSession register(String username, String password, String email, String firstName, String lastName) {
-        String sql = "{CALL RegisterUser(?, ?, ?, ?, ?, ?)}";
+    public UserSession register(String username, String password, String email, String firstName, String lastName, UserRole role) {
+        String sql = "{CALL RegisterUser(?, ?, ?, ?, ?, ?, ?)}";
         int newUserID = -1;
 
         try (Connection conn = dataSource.getConnection();
@@ -60,11 +65,13 @@ public class AuthManager {
             stmt.setString(3, email);
             stmt.setString(4, firstName);
             stmt.setString(5, lastName);
-            stmt.registerOutParameter(6, java.sql.Types.INTEGER);
+            stmt.setString(6, role.name());
+
+            stmt.registerOutParameter(7, java.sql.Types.INTEGER);
 
             stmt.execute();
 
-            newUserID = stmt.getInt(6);
+            newUserID = stmt.getInt(7);
 
             System.out.println("User registered successfully with User ID: " + newUserID);
             UserSession session = UserSession.getInstance();
@@ -84,6 +91,47 @@ public class AuthManager {
 
 
     }
+
+    public boolean updatePassword(int userID, String newPassword) {
+        String sql = "{CALL UpdatePasswordHash(?, ?)}";
+
+        try (Connection conn = dataSource.getConnection();
+             CallableStatement stmt = conn.prepareCall(sql)) {
+
+            stmt.setInt(1, userID);
+            String hashedPassword = dumbhash(newPassword);
+            stmt.setString(2, hashedPassword);
+            stmt.execute();
+            return true;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+    public String getEmailFromUserName(String username) {
+        String sql = "{CALL GetEmail(?)}";
+
+        try (Connection conn = dataSource.getConnection();
+             CallableStatement stmt = conn.prepareCall(sql)) {
+
+            stmt.setString(1, username);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("email");
+                } else {
+                    return null;
+                }
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        }
+
+    }
+
     // Todo: actually hash password
     private String dumbhash(String password) {
         return password.toLowerCase() + "_hashed";
