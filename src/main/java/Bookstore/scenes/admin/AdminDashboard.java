@@ -15,8 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox; import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -209,7 +208,6 @@ public class AdminDashboard{
 			double diameter = userImage.getRadius() * 2;
 			imageSelected.setFitWidth(diameter);
 			imageSelected.setFitHeight(diameter);
-			//imageSelected.setPreserveRatio(false);
 			imageSelected.setPreserveRatio(false);
 		
 			// clip image to fit circle 
@@ -223,8 +221,6 @@ public class AdminDashboard{
 		
 			// add clipped image 
 			userInfoStack.getChildren().add(imageSelected);
-			
-			// center within StackPane
 			StackPane.setAlignment(imageSelected, Pos.CENTER);
 			
 			imageSelected.setTranslateY(-10);

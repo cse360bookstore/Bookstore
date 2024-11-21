@@ -153,4 +153,29 @@ public class AdminManager {
             stmt.executeUpdate();
         }
     }
+    
+    // function to group book by their condition and return the count of books sold for each condition.
+    public ObservableList<Transaction> getSalesbyCondition() throws SQLException{
+    	ObservableList<Transaction> salesData = FXCollections.observableArrayList();
+    	String query = "SELECT BookCondition, COUNT(*) AS count " + 
+						"FROM BooksForSale " + 
+						"WHERE Status = 'SOLD' " + 
+						"GROUP By BookCondition";
+    	
+    	try (Connection connection = dataSource.getConnection();
+    			PreparedStatement statement = connection.prepareStatement(query);
+    			ResultSet resultSet = statement.executeQuery()){
+    				
+    				while (resultSet.next()) {
+    					String condition = resultSet.getString("BookCondition");
+    					int count = resultSet.getInt("count");
+    					salesData.add(new Transaction(condition, count));
+    				}
+    			}catch (SQLException e) {
+    				System.err.println("Error retrieving sales data by condition: " + e.getMessage());
+    				throw e;
+    			}
+    			return salesData;
+    	
+    }
 }
