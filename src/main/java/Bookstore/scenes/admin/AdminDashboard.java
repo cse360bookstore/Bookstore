@@ -184,11 +184,12 @@ public class AdminDashboard{
 		userImageUpload.setOnAction(event -> uploadUserImage(anchorPane));
 		StackPane.setAlignment(userImageUpload, Pos.BOTTOM_CENTER);
 		StackPane.setMargin(userImageUpload, new Insets(10, 0, 10, 0));
+		AnchorPane.setTopAnchor(userImageUpload, 200.0);
+		AnchorPane.setLeftAnchor(userImageUpload, 10.0);
 
 		userInfoStack.getChildren().addAll(userInfo, userName, userInfoBox, userImage, userImageUpload);
 	}
 
-	// TODO: Send image to database. 
 	private void uploadUserImage(AnchorPane anchorPane2) {
 		// Select image file
 		FileChooser chooseImage = new FileChooser();
@@ -208,6 +209,7 @@ public class AdminDashboard{
 			double diameter = userImage.getRadius() * 2;
 			imageSelected.setFitWidth(diameter);
 			imageSelected.setFitHeight(diameter);
+			//imageSelected.setPreserveRatio(false);
 			imageSelected.setPreserveRatio(false);
 		
 			// clip image to fit circle 
