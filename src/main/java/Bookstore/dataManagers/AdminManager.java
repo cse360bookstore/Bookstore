@@ -20,6 +20,11 @@ public class AdminManager {
         this.dataSource = dataSource;
     }
 
+    // added this otherwise i would've had to make DataSource public
+    public DataSource getDataSource(){
+        return dataSource;
+    }
+
     public ObservableList<Transaction> getAllTransactions() throws SQLException {
         ObservableList<Transaction> transactions = FXCollections.observableArrayList();
         String storedProcedure = "{CALL GetAllTransactions()}";
