@@ -108,7 +108,10 @@ public class BuyingProcess {
                 }
             }
         });
-        return;
+
+        BookItem.getShoppingCart().clear();
+        updateCartItemCount();
+        AlertHelper.showAlert(Alert.AlertType.INFORMATION, "Success!", "Cart purchase confirmed successfully.");
     }
 
 
