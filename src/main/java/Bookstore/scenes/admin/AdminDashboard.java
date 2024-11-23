@@ -45,7 +45,7 @@ public class AdminDashboard{
 	private Circle userImage;
 	DataSource dataSource = SqlConnectionPoolFactory.createConnectionPool();
 	private final AdminManager adminManager = new AdminManager(dataSource);
-
+	private AnchorPane contentArea;
 	
 	public AdminDashboard() throws SQLException {
 		this.transactionView = new TransactionView();
@@ -57,7 +57,6 @@ public class AdminDashboard{
 		this.statisticsView = new StatisticsView();
 		this.name = name;
 		createUI();
-		testupdateroles();
 	}
 	public void setName(String name){
 		this.name = name;
@@ -100,6 +99,8 @@ public class AdminDashboard{
 		settingsButton.setTextFill(Color.WHITE);
 		settingsButton.setStyle("-fx-background-color: Maroon");
 
+
+
 		// Transaction scene
 		transactionButton.setOnAction(event -> {
 			transactionButton.setStyle("-fx-background-color: Maroon");
@@ -132,14 +133,11 @@ public class AdminDashboard{
 			transactionButton.setStyle("-fx-background-color: Gray");
 			statisticsButton.setStyle("-fx-background-color: Gray");
 
-            anchorPane.getChildren().removeIf(node -> !(node instanceof StackPane)); // keep user info box 
+			contentArea.getChildren().clear();
 
-            Settings settingsPage = new Settings();
-            AnchorPane settingsPane = settingsPage.getRoot();
-            AnchorPane.setTopAnchor(settingsPane, 300.0);
-            AnchorPane.setLeftAnchor(settingsPane, 50.0);
-
-            anchorPane.getChildren().add(settingsPane);
+			Settings settingsView = new Settings(this);
+			AnchorPane settingsPane = settingsView.getRoot();
+			setContentArea(settingsPane);
         });
 
 
@@ -184,7 +182,7 @@ public class AdminDashboard{
 		try {
 				scene = new Scene(fxmlLoader.load(), 800, 600);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 			    stage.setScene(scene);
@@ -217,6 +215,15 @@ public class AdminDashboard{
 		AnchorPane.setLeftAnchor(userImageUpload, 10.0);
 
 		userInfoStack.getChildren().addAll(userInfo, userName, userInfoBox, userImage, userImageUpload);
+
+		contentArea = new AnchorPane();
+		contentArea.setPrefSize(600, 400);
+		AnchorPane.setTopAnchor(contentArea, 350.0);
+		AnchorPane.setLeftAnchor(contentArea, 50.0);
+		AnchorPane.setRightAnchor(contentArea, 50.0);
+		AnchorPane.setBottomAnchor(contentArea, 50.0);
+		anchorPane.getChildren().add(contentArea);
+		
 	}
 
 	private void uploadUserImage(AnchorPane anchorPane2) {
@@ -259,42 +266,38 @@ public class AdminDashboard{
 	}
 
 	private void displayTransactionView() throws SQLException {
+		contentArea.getChildren().clear();
+
 		transactionView = new TransactionView();
 		AnchorPane transactionPane = transactionView.getRoot();
-		anchorPane.getChildren().removeIf(node -> node instanceof AnchorPane && node != getRoot());
-		AnchorPane.setTopAnchor(transactionPane, 300.0);
-		AnchorPane.setLeftAnchor(transactionPane, 50.0);
-		AnchorPane.setBottomAnchor(transactionPane, 250.0);
-
-		anchorPane.getChildren().add(transactionPane);
+		setContentArea(transactionPane);
 	}
 
 	private void displayStatisticsView() {
-
-		anchorPane.getChildren().removeIf(node -> node instanceof AnchorPane && node != getRoot());
-
+		contentArea.getChildren().clear();
+		statisticsView = new StatisticsView();
 		AnchorPane statisticsPane = statisticsView.getRoot();
-		AnchorPane.setTopAnchor(statisticsPane, 300.0);
-		AnchorPane.setLeftAnchor(statisticsPane, 50.0);
-		AnchorPane.setBottomAnchor(statisticsPane, 250.0);
-
-		anchorPane.getChildren().add(statisticsPane);
+		setContentArea(statisticsPane);
 	}
-	private void displayBookForSales() throws SQLException {
-		bookForSaleView = new BookForSaleView();
-		AnchorPane bookforsalepane = bookForSaleView.getRoot();
-		anchorPane.getChildren().removeIf(node -> node instanceof AnchorPane && node != getRoot());
-		AnchorPane.setTopAnchor(bookforsalepane, 300.0);
-		AnchorPane.setLeftAnchor(bookforsalepane, 50.0);
-		AnchorPane.setBottomAnchor(bookforsalepane, 250.0);
 
-		anchorPane.getChildren().add(bookforsalepane);
+	private void displaySettingsView() {
+		contentArea.getChildren().clear();
+		Settings settingsView = new Settings(this);
+		AnchorPane settingsPane = settingsView.getRoot();
+		setContentArea(settingsPane);
+
 	}
-	// todo: leverage this into its own page
-	public void testupdateroles() throws SQLException {
 
-		adminManager.updateUserRole(4, UserRole.ADMIN);
-
+	private void setContentArea(Node node) {
+		contentArea.getChildren().add(node);
+		AnchorPane.setTopAnchor(node, 0.0);
+		AnchorPane.setLeftAnchor(node, 0.0);
+		AnchorPane.setRightAnchor(node, 0.0);
+		AnchorPane.setBottomAnchor(node, 0.0);
+	}
+	public void setContent(Node node) {
+		contentArea.getChildren().clear();
+		setContentArea(node);
 	}
 }
 
