@@ -17,6 +17,7 @@
             <HBox  alignment="CENTER_LEFT" spacing="10">
                 <Label text="Available Books for Purchase" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
                 <Button text="Refresh" onAction="#handleRefreshAction" style="-fx-background-color: #4f72bf; -fx-text-fill: white;"/>
+                <Button text="Logout" onAction="#goBack"/>
             </HBox>
 
             <HBox alignment="CENTER_RIGHT" spacing="10">

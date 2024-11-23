@@ -25,6 +25,13 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import javax.sql.DataSource;
+import javafx.stage.Stage;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import java.io.IOException;
 
 public class AdminDashboard{
 
@@ -39,7 +46,7 @@ public class AdminDashboard{
 	DataSource dataSource = SqlConnectionPoolFactory.createConnectionPool();
 	private final AdminManager adminManager = new AdminManager(dataSource);
 
-
+	
 	public AdminDashboard() throws SQLException {
 		this.transactionView = new TransactionView();
 		this.statisticsView = new StatisticsView();
@@ -167,11 +174,30 @@ public class AdminDashboard{
 		StackPane.setAlignment(userName, Pos.TOP_CENTER); 
 		StackPane.setMargin(userName, new Insets(140, 0, 0, 0)); 
 		userName.setFill(Color.WHITE);
+		
+		// back button
+		Button back = new Button("Back");
+		back.setOnAction(event -> {
+		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();       
+	    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Bookstore/scenes/login/Login.fxml"));
+	    Scene scene = null;
+		try {
+				scene = new Scene(fxmlLoader.load(), 800, 600);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			    stage.setScene(scene);
+			    stage.show();
+		    });
+		    AnchorPane.setTopAnchor(back, 10.0);
+			AnchorPane.setRightAnchor(back, 10.0);
+			anchorPane.getChildren().add(back);
 
 		VBox userInfoBox = new VBox();
 		userInfoBox.setAlignment(Pos.BOTTOM_CENTER);
 		userInfoBox.getChildren().addAll(userName);
-
+		        
 		// Stack user info
 		userInfoStack.setAlignment(Pos.TOP_LEFT);
 		anchorPane.getChildren().add(userInfoStack);

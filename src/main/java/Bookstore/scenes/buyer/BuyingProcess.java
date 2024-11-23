@@ -8,16 +8,22 @@ import Bookstore.models.UserSession;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Set;
+import javafx.event.ActionEvent;
 
 public class BuyingProcess {
     @FXML
@@ -36,6 +42,14 @@ public class BuyingProcess {
 
         loadBooks();
         checkoutButton.setOnAction((event -> handleCheckoutAction()));
+    }
+    @FXML
+    private void goBack(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Bookstore/scenes/login/Login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+        stage.setScene(scene);
+        stage.show();
     }
 
     private void loadBooks() {
