@@ -19,6 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -30,6 +31,8 @@ import java.net.URL;
 import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
 
 public class SellingProcess implements Initializable {
     private enum Step {
@@ -61,7 +64,6 @@ public class SellingProcess implements Initializable {
     private List<HeaderPiece> passedHeaderPieces = new ArrayList<>();
 
     private final String imgPrefix = "/Bookstore/images/";
-
     @FXML
     private VBox contentArea;
 
@@ -69,6 +71,7 @@ public class SellingProcess implements Initializable {
     VBox container;
     @FXML
     HBox container2;
+
     private HeaderPiece activeHeader;
 
     private String selectedTitle = "";
@@ -84,8 +87,7 @@ public class SellingProcess implements Initializable {
     private HeaderPiece ConditionHeader = new HeaderPiece();
     private HeaderPiece PriceHeader = new HeaderPiece();
     private HeaderPiece BookDetailsHeader = new HeaderPiece(); // New Header
-    private HeaderPiece ConfirmHeader = new HeaderPiece();
-
+    private HeaderPiece ConfirmHeader = new HeaderPiece();   
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
