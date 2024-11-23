@@ -1,9 +1,11 @@
 
 package Bookstore.dataManagers;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import Bookstore.models.Book;
+import Bookstore.models.BookForSale;
 import Bookstore.models.BookWithUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -100,6 +102,61 @@ public class BookManager {
                 throw e;
             }
         }
+    }
+
+    public ObservableList<BookForSale> getBooksBySellerID(int sellerID) {
+        ObservableList<BookForSale> books = FXCollections.observableArrayList();
+        String sql = "{CALL GetBooksBySellerID(?)}";
+
+        try (Connection conn = dataSource.getConnection();
+             CallableStatement stmt = conn.prepareCall(sql)) {
+
+            stmt.setInt(1, sellerID);
+
+            boolean hasResults = stmt.execute();
+
+            if (hasResults) {
+                try (ResultSet rs = stmt.getResultSet()) {
+                    while (rs.next()) {
+                        int bookID = rs.getInt("bookID");
+                        String title = rs.getString("title");
+                        String category = rs.getString("category");
+                        String bookCondition = rs.getString("BookCondition");
+                        String author = rs.getString("author");
+                        String description = rs.getString("description");
+                        double price = rs.getDouble("price");
+                        BookForSale.Status status = BookForSale.Status.valueOf(rs.getString("Status"));
+                        Timestamp listedAtTimestamp = rs.getTimestamp("listedAt");
+                        LocalDateTime listedAt = listedAtTimestamp != null ? listedAtTimestamp.toLocalDateTime() : null;
+
+
+
+
+                        BookForSale book = new BookForSale(
+                                bookID,
+                                title,
+                                category,
+                                bookCondition,
+                                author,
+                                description,
+                                price,
+                                sellerID,
+                                listedAt,
+                                status
+                        );
+
+
+                        books.add(book);
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error fetching books for seller: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return books;
     }
 
 }

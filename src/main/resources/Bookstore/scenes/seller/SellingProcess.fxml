@@ -11,10 +11,13 @@
       fx:controller="Bookstore.scenes.seller.SellingProcess">
     <HBox fx:id="container2" alignment="CENTER"/>
 
+
     <VBox fx:id="contentArea" spacing="15" alignment="CENTER"
           style="-fx-border-width: 2;
              -fx-border-radius: 10;
              -fx-padding: 15;">
+
+
     </VBox>
 
 
