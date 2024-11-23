@@ -68,6 +68,10 @@ public class BuyingProcess {
 
     private void handleCheckoutAction() {
         Set<Integer> cartItems = BookItem.getShoppingCart();
+        if (cartItems.isEmpty()) {
+            AlertHelper.showAlert(Alert.AlertType.INFORMATION, "Empty Cart", "The cart is empty and therefore you cannot checkout.");
+            return;
+        }
 
         // Commpute total price
         StringBuilder sb = new StringBuilder();
@@ -112,6 +116,7 @@ public class BuyingProcess {
         BookItem.getShoppingCart().clear();
         updateCartItemCount();
         AlertHelper.showAlert(Alert.AlertType.INFORMATION, "Success!", "Cart purchase confirmed successfully.");
+        loadBooks();
     }
 
 
