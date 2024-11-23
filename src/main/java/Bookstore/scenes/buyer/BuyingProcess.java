@@ -55,6 +55,7 @@ public class BuyingProcess {
     @FXML
     private void handleRefreshAction() {
         loadBooks();
+        AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, "Refresh Successful", "Book catalog has been refreshed");
     }
 
 }
