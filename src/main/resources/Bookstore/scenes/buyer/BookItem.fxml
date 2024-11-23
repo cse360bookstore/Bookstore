@@ -17,5 +17,6 @@
     <Label fx:id = "priceLabel">price</Label>
 
    <Button fx:id="addToCartButton" text="Add to Cart"> </Button>
+    <Button fx:id="removeFromCartButton" text="Remove From Cart"> </Button>
 
 </VBox>

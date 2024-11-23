@@ -24,6 +24,8 @@ public class BookItem {
     private Label priceLabel;
     @FXML
     private Button addToCartButton;
+    @FXML
+    private Button removeFromCartButton;
 
     private BookWithUser book;
     private BookManager bookManager;
@@ -40,9 +42,16 @@ public class BookItem {
         priceLabel.setText(String.format("Price: $%.2f", book.getPrice()));
 
         addToCartButton.setOnAction(event -> handleAddToCartAction());
+        removeFromCartButton.setOnAction(event -> handleRemoveFromCartAction());
+
 
         if (shoppingCart.contains(book.getBookID())) {
-            addToCartButton.setDisable(true);
+            addToCartButton.setVisible(false);
+            removeFromCartButton.setVisible(true);
+        }
+        else {
+            addToCartButton.setVisible(true);
+            removeFromCartButton.setVisible(false);
         }
     }
 
@@ -56,7 +65,16 @@ public class BookItem {
         shoppingCart.add(bookId);
         buyingProcessController.updateCartItemCount();
 //        AlertHelper.showAlert(Alert.AlertType.INFORMATION, "Success", "Successfully added to your cart.");
-        addToCartButton.setDisable(true);
+        addToCartButton.setVisible(false);
+        removeFromCartButton.setVisible(true);
+    }
+
+    private void handleRemoveFromCartAction(){
+        int bookId = book.getBookID();
+        shoppingCart.remove(bookId);
+        buyingProcessController.updateCartItemCount();
+        addToCartButton.setVisible(true);
+        removeFromCartButton.setVisible(false);
     }
 
     public static Set<Integer> getShoppingCart(){
