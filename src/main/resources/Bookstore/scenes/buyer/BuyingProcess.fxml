@@ -9,7 +9,9 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.CheckBox?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="Bookstore.scenes.buyer.BuyingProcess">
     <top>
@@ -19,6 +21,23 @@
                 <Button text="Refresh" onAction="#handleRefreshAction" style="-fx-background-color: #4f72bf; -fx-text-fill: white;"/>
                 <Button text="Logout" onAction="#goBack"/>
             </HBox>
+
+            <VBox spacing="5">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Genre:"/>
+                <CheckBox fx:id="naturalScienceButton" text="Natural Science" selected="true"/>
+                <CheckBox fx:id="computerScienceButton" text="Computer Science" selected="true"/>
+                <CheckBox fx:id="englishLanguageButton" text="English Language" selected="true"/>
+                <CheckBox fx:id="scienceButton" text="Science" selected="true"/>
+                <CheckBox fx:id="otherButton" text="Other" selected="true"/>
+            </HBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Condition:"/>
+                <CheckBox fx:id="usedLikeNewConditionButton" text="Used Like New" selected="true"/>
+                <CheckBox fx:id="moderatelyUsedConditionButton" text="Moderately Used" selected="true"/>
+                <CheckBox fx:id="heavilyUsedConditionButton" text="Heavily Used" selected="true"/>
+            </HBox>
+            </VBox>
 
             <HBox alignment="CENTER_RIGHT" spacing="10">
                 <Label fx:id="cartItemCount" text="Cart: 0 items" style="-fx-font-size: 20px;"/>
