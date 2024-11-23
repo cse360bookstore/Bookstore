@@ -104,6 +104,42 @@ public class BookManager {
         }
     }
 
+
+    public BookWithUser getBookById(int bookID) throws SQLException {
+        String sql = "SELECT * FROM BooksForSale WHERE bookID = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, bookID);
+            System.out.println(stmt.toString());
+
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.isBeforeFirst() ) {
+                return null;
+            }
+
+            rs.next();
+
+            int id = rs.getInt("bookID");
+            String title = rs.getString("title");
+            String category = rs.getString("category");
+            String bookCondition = rs.getString("BookCondition");
+            String author = rs.getString("author");
+            String description = rs.getString("description");
+            double price = rs.getDouble("price");
+            String listedAt = rs.getString("listedAt");
+            String listedByUsername = rs.getString("listedByUserID");
+            return new BookWithUser(id, title, category, bookCondition, author, description, price,
+                    listedAt, listedByUsername, "", "", "");
+
+        } catch (SQLException e) {
+            System.err.println("Error fetching book by ID: " + e.getMessage());
+            throw e;
+        }
+    }
+
+
     public ObservableList<BookForSale> getBooksBySellerID(int sellerID) {
         ObservableList<BookForSale> books = FXCollections.observableArrayList();
         String sql = "{CALL GetBooksBySellerID(?)}";
