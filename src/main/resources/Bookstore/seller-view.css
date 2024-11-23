@@ -5,7 +5,6 @@
 
 }
 
-/* Define the hover state of the button */
 .seller-section:hover {
     -fx-background-color: darkblue;
     -fx-text-fill: white;
@@ -16,11 +15,13 @@
 .imgbox{
     /* asu gold */
     -fx-background-color: #FFC627;
+    /* asu maroon */
     -fx-border-color: #8C1D40;
 }
 .imgbox:hover{
-    /* asu maroon */
+    /* asu maroon + a little brighter*/
     -fx-background-color: #ac3356;
+
     -fx-border-color:  #FFC627;
 
 }

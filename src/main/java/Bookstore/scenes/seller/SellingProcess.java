@@ -29,11 +29,27 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Array;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class SellingProcess implements Initializable {
+    private enum Step {
+        CATEGORY,
+        CONDITION,
+        PRICE,
+        BOOK_DETAILS,
+        CONFIRM
+    }
+    private final List<Step> stepOrder = Arrays.asList(
+            Step.CATEGORY,
+            Step.CONDITION,
+            Step.PRICE,
+            Step.BOOK_DETAILS,
+            Step.CONFIRM
+    );
+
+    private Set<Step> allowedSteps = new HashSet<>();
+    private Step currentStep = Step.CATEGORY;
+
     DataSource dataSource = SqlConnectionPoolFactory.createConnectionPool();
     private final BookManager bookManager = new BookManager(dataSource);
     private List<ImgBox> ConditionImgBoxes = new ArrayList<>();
@@ -73,6 +89,8 @@ public class SellingProcess implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        allowedSteps.add(Step.CATEGORY);
+
         // Initialize Headers
         CategoryHeader.setColorType(HeaderPiece.ColorType.ACTIVE);
         CategoryHeader.setMessage("Category");
@@ -90,11 +108,11 @@ public class SellingProcess implements Initializable {
         ConfirmHeader.setMessage("Confirm");
 
         // Set Header Click Actions
-        CategoryHeader.setOnMouseClicked(event -> switchPage(CategoryHeader, "CategoryPage"));
-        ConditionHeader.setOnMouseClicked(event -> switchPage(ConditionHeader, "ConditionPage"));
-        PriceHeader.setOnMouseClicked(event -> switchPage(PriceHeader, "PricePage"));
-        BookDetailsHeader.setOnMouseClicked(event -> switchPage(BookDetailsHeader, "BookDetailsPage"));
-        ConfirmHeader.setOnMouseClicked(event -> switchPage(ConfirmHeader, "ConfirmPage"));
+        CategoryHeader.setOnMouseClicked(event -> attemptSwitchPage(CategoryHeader, Step.CATEGORY));
+        ConditionHeader.setOnMouseClicked(event -> attemptSwitchPage(ConditionHeader, Step.CONDITION));
+        PriceHeader.setOnMouseClicked(event -> attemptSwitchPage(PriceHeader, Step.PRICE));
+        BookDetailsHeader.setOnMouseClicked(event -> attemptSwitchPage(BookDetailsHeader, Step.BOOK_DETAILS));
+        ConfirmHeader.setOnMouseClicked(event -> attemptSwitchPage(ConfirmHeader, Step.CONFIRM));
 
         container2.getChildren().add(CategoryHeader);
         container2.getChildren().add(ConditionHeader);
@@ -102,7 +120,7 @@ public class SellingProcess implements Initializable {
         container2.getChildren().add(BookDetailsHeader);
         container2.getChildren().add(ConfirmHeader);
 
-        switchPage(CategoryHeader, "CategoryPage");
+        switchPage(CategoryHeader, Step.CATEGORY);
     }
 
     private SellingProcessSection createCategoryContent() {
@@ -154,8 +172,10 @@ public class SellingProcess implements Initializable {
         }
 
         container.getChildren().addAll(DarwinBox, TuringBox, ShakespeareBox, EinsteinBox, OtherBox);
+        container.setAlignment(Pos.CENTER);
 
         contentSection.setContent(container);
+        contentSection.setAlignment(Pos.CENTER);
         return contentSection;
     }
 
@@ -197,11 +217,13 @@ public class SellingProcess implements Initializable {
         container.getChildren().addAll(LikeNewBox, ModerateUseBox, HeavyUseBox);
 
         contentSection.setContent(container);
+        contentSection.setAlignment(Pos.CENTER);
         return contentSection;
     }
 
     private SellingProcessSection createPriceContent() {
         SellingProcessSection contentSection = new SellingProcessSection();
+        contentSection.setAlignment(Pos.CENTER);
         contentSection.setTitle("What was the price of your book new?");
         HBox container = new HBox();
         container.setSpacing(10);
@@ -227,6 +249,15 @@ public class SellingProcess implements Initializable {
 
         return contentSection;
     }
+
+    private void attemptSwitchPage(HeaderPiece clickedHeader, Step step) {
+        if (allowedSteps.contains(step)) {
+            switchPage(clickedHeader, step);
+        } else {
+            AlertHelper.showAlert(Alert.AlertType.WARNING, "Step Not Allowed", "You cannot navigate to this step yet.");
+        }
+    }
+
 
     private SellingProcessSection createBookDetailsContent() {
         SellingProcessSection contentSection = new SellingProcessSection();
@@ -294,6 +325,8 @@ public class SellingProcess implements Initializable {
                 if (!passedHeaderPieces.contains(BookDetailsHeader)) {
                     BookDetailsHeader.setColorType(HeaderPiece.ColorType.PASSED);
                     passedHeaderPieces.add(BookDetailsHeader);
+                    allowedSteps.add(Step.CONFIRM);
+
                 }
             }
         });
@@ -309,7 +342,6 @@ public class SellingProcess implements Initializable {
         calculateOfferedPrice();
         SellingProcessSection contentSection = new SellingProcessSection();
         contentSection.setTitle("Based on the category,\ncondition, and original price,\nWe can offer you:");
-
 
         HBox container = new HBox();
         container.setSpacing(10);
@@ -334,7 +366,7 @@ public class SellingProcess implements Initializable {
         return contentSection;
     }
 
-    private void switchPage(HeaderPiece clickedHeader, String page) {
+    private void switchPage(HeaderPiece clickedHeader, Step step) {
         if (activeHeader != null) {
             activeHeader.setColorType(HeaderPiece.ColorType.INACTIVE);
         }
@@ -344,27 +376,21 @@ public class SellingProcess implements Initializable {
         clickedHeader.setColorType(HeaderPiece.ColorType.ACTIVE);
         activeHeader = clickedHeader;
 
-        loadPage(page);
+        loadPage(step);
     }
 
-    private void loadPage(String pageName) {
+    private void loadPage(Step step) {
         contentArea.getChildren().clear();
-        switch (pageName) {
-            case "CategoryPage":
-                contentArea.getChildren().add(createCategoryContent());
-                break;
-            case "ConditionPage":
-                contentArea.getChildren().add(createConditionContent());
-                break;
-            case "PricePage":
-                contentArea.getChildren().add(createPriceContent());
-                break;
-            case "ConfirmPage":
-                contentArea.getChildren().add(createConfirmContent());
-                break;
-            case "BookDetailsPage":
-                contentArea.getChildren().add(createBookDetailsContent());
-                break;
+        SellingProcessSection section = switch (step) {
+            case CATEGORY -> createCategoryContent();
+            case CONDITION -> createConditionContent();
+            case PRICE -> createPriceContent();
+            case BOOK_DETAILS -> createBookDetailsContent();
+            case CONFIRM -> createConfirmContent();
+        };
+        if (section != null) {
+            VBox pageContent = new VBox(section);
+            contentArea.getChildren().add(section);
         }
     }
 
@@ -378,6 +404,7 @@ public class SellingProcess implements Initializable {
         if (!passedHeaderPieces.contains(CategoryHeader)) {
             CategoryHeader.setColorType(HeaderPiece.ColorType.PASSED);
             passedHeaderPieces.add(CategoryHeader);
+            allowedSteps.add(Step.CONDITION);
         }
     }
 
@@ -392,6 +419,7 @@ public class SellingProcess implements Initializable {
         if (!passedHeaderPieces.contains(ConditionHeader)) {
             ConditionHeader.setColorType(HeaderPiece.ColorType.PASSED);
             passedHeaderPieces.add(ConditionHeader);
+            allowedSteps.add(Step.PRICE);
         }
     }
 
@@ -403,6 +431,7 @@ public class SellingProcess implements Initializable {
         if (!passedHeaderPieces.contains(PriceHeader)) {
             PriceHeader.setColorType(HeaderPiece.ColorType.PASSED);
             passedHeaderPieces.add(PriceHeader);
+            allowedSteps.add(Step.BOOK_DETAILS);
         }
 
         double reductionFactor = 1.0;
@@ -445,7 +474,6 @@ public class SellingProcess implements Initializable {
 
         reductionFactor = Math.max(reductionFactor, 0.1);
 
-
         this.offeredPrice = originalPrice * reductionFactor;
     }
 
@@ -471,10 +499,12 @@ public class SellingProcess implements Initializable {
         }
     }
 
+
+
     private void goToMainMenu() throws IOException {
         Stage stage = (Stage) contentArea.getScene().getWindow();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource("/Bookstore/scenes/MainMenu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource("/Bookstore/scenes/seller/SellerPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
 
         stage.setScene(scene);
