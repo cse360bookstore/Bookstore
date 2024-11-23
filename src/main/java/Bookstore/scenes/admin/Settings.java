@@ -15,24 +15,28 @@ import Bookstore.dataManagers.AdminManager;
 import Bookstore.models.BookWithUser;
 
 public class Settings {
-	
+
 	private AnchorPane rootPane;
-    private AdminManager adminManager;
+    private AdminDashboard parentDashboard;
 
 	public Settings() {
 		initializeUI();
 	}
+    public Settings(AdminDashboard parentDashboard) {
+        this.parentDashboard = parentDashboard;
+        initializeUI();
+    }
 	public AnchorPane getRoot() {
 		return rootPane;
-		
+
 	}
-	
+
 	private void initializeUI() {
-		
+
 		rootPane = new AnchorPane();
-	
-		// Button to edit seller input. 
-		Button editBuyerSellerButton = new Button("Edit Buyer/Selelr Input");
+
+		// Button to edit seller input.
+		Button editBuyerSellerButton = new Button("Edit Buyer/Seller Input");
 		editBuyerSellerButton.setTextFill(Color.WHITE);
 		editBuyerSellerButton.setStyle("-fx-background-color: Black");
 		editBuyerSellerButton.setOnAction(e -> {
@@ -49,48 +53,31 @@ public class Settings {
             System.out.println("Redirect to Edit User Roles page");
             displayUserRoleManagerView();
         });
-		
-		// Keep the buttons aligned  
+
+		// Keep the buttons aligned
 		HBox buttonLayout = new HBox(80);
 		buttonLayout.setAlignment(Pos.CENTER);
 		buttonLayout.getChildren().addAll(editBuyerSellerButton, editUserRolesButton);
-		
-        // position top center 
+
+        // position top center
         AnchorPane.setTopAnchor(buttonLayout, 50.0);
 		AnchorPane.setLeftAnchor(buttonLayout, 200.0);
         AnchorPane.setRightAnchor(buttonLayout, 200.0);
-		
+
 		rootPane.getChildren().add(buttonLayout);
 	}
 
-    private void displayBookForSaleView(){
-        try{
+    private void displayBookForSaleView() {
+        try {
             BookForSaleView bookForSaleView = new BookForSaleView();
-            Scene scene = rootPane.getScene();
-            if (scene != null){
-                scene.setRoot(bookForSaleView.getRoot());
-            }else{
-                System.out.println("Error: Scene is not set. Cannot switch to BookForSaleView.");
-            }
-        } catch(SQLException e){
+            parentDashboard.setContent(bookForSaleView.getRoot());
+        } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println("Error loading BookForSaleView: " + e.getMessage());
         }
     }
 
-    private void displayUserRoleManagerView(){
-        try{
-            UserRoleManagerView userRoleManagerView = new UserRoleManagerView();
-
-            Scene scene = rootPane.getScene();
-            if (scene != null){
-                scene.setRoot(userRoleManagerView.getRoot());
-            }else{
-                System.out.println("Error: Scene is not set. Cannot switch to UserRoleManagerView.");
-            }
-        } catch(Exception e){
-            e.printStackTrace();
-            System.err.println("Error loading UserRoleManagerView: " + e.getMessage());
-        }
+    private void displayUserRoleManagerView() {
+        UserRoleManagerView userRoleManagerView = new UserRoleManagerView();
+        parentDashboard.setContent(userRoleManagerView.getRoot());
     }
 }
