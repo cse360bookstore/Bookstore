@@ -10,11 +10,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Set;
 
 public class BuyingProcess {
     @FXML
@@ -64,7 +67,47 @@ public class BuyingProcess {
     }
 
     private void handleCheckoutAction() {
-        // TODO: implement checkout scene
+        Set<Integer> cartItems = BookItem.getShoppingCart();
+
+        // Commpute total price
+        StringBuilder sb = new StringBuilder();
+        sb.append("Cart summary:\n");
+        double totalPrice = 0;
+        for (int bookId : cartItems) {
+            try {
+                BookWithUser book = bookManager.getBookById(bookId);
+                sb.append(book.getTitle());
+                sb.append(" - $");
+                sb.append(book.getPrice());
+                sb.append("\n");
+                totalPrice += book.getPrice();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                AlertHelper.showAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while processing your purchase.");
+            }
+        }
+        sb.append("Total: $");
+        sb.append(totalPrice);
+
+        Alert confirmAlert = AlertHelper.createAlert(Alert.AlertType.CONFIRMATION, "Are You Sure You Want to Checkout?", sb.toString());
+        confirmAlert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                int userId = UserSession.getInstance().getUserId();
+                for (int bookId : cartItems) {
+                    try {
+                        BookWithUser book = bookManager.getBookById(bookId); // Assuming this method exists
+                        boolean success = bookManager.buyBook(book.getBookID(), userId, book.getPrice());
+                        if (!success) {
+                            AlertHelper.showAlert(Alert.AlertType.ERROR, "Purchase Failed", "Failed to purchase book: " + book.getTitle());
+                            continue;
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        AlertHelper.showAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while processing your purchase.");
+                    }
+                }
+            }
+        });
         return;
     }
 

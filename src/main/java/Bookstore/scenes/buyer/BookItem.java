@@ -81,34 +81,8 @@ public class BookItem {
         return shoppingCart;
     }
 
-//    private void handleBuyAction() {
-//
-//        Alert confirmAlert = AlertHelper.createAlert(Alert.AlertType.CONFIRMATION, "Confirm Purchase", "Are you sure you want to buy \"" + book.getTitle() + "\" for $" + book.getPrice() + "?");
-//        confirmAlert.showAndWait().ifPresent(response -> {
-//            if (response == ButtonType.OK) {
-//                try {
-//                    boolean success = bookManager.buyBook(book.getBookID(), getCurrentUserId(), book.getPrice());
-//                    if (success) {
-//                        AlertHelper.showAlert(Alert.AlertType.INFORMATION, "Purchase Successful", "You have successfully purchased \"" + book.getTitle() + "\".");
-//
-//                        addToCartButton.setDisable(true);
-//
-//                    } else {
-//                        AlertHelper.showAlert(Alert.AlertType.ERROR, "Purchase Failed", "Failed to purchase the book. It might have already been sold.");
-//                        addToCartButton.setDisable(true);
-//                    }
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                    AlertHelper.showAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while processing your purchase.");
-//                }
-//            }
-//        });
-//    }
-
-
     private int getCurrentUserId() {
         return UserSession.getInstance().getUserId();
     }
-
 
 }
