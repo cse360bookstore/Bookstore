@@ -9,6 +9,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 import javax.sql.DataSource;
@@ -17,6 +19,11 @@ import java.io.IOException;
 public class BuyingProcess {
     @FXML
     private VBox booksContainer;
+    @FXML
+    private Label cartItemCount;
+    @FXML
+    private Button checkoutButton;
+
     private BookManager bookManager;
 
     @FXML
@@ -25,6 +32,7 @@ public class BuyingProcess {
         bookManager = new BookManager(dataSource);
 
         loadBooks();
+        checkoutButton.setOnAction((event -> handleCheckoutAction()));
     }
 
     private void loadBooks() {
@@ -49,6 +57,15 @@ public class BuyingProcess {
             e.printStackTrace();
             AlertHelper.showAlert(Alert.AlertType.ERROR, "UI Error", "Failed to load the book items.");
         }
+    }
+
+    public void updateCartItemCount() {
+        cartItemCount.setText("Cart Items: " + String.valueOf(BookItem.getShoppingCart().size()));
+    }
+
+    private void handleCheckoutAction() {
+        // TODO: implement checkout scene
+        return;
     }
 
 
