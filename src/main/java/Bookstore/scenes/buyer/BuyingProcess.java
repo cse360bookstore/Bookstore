@@ -49,7 +49,7 @@ public class BuyingProcess {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Bookstore/scenes/buyer/BookItem.fxml"));
                 VBox bookItem = loader.load();
                 BookItem controller = loader.getController();
-                controller.setBook(book, bookManager);
+                controller.setBook(book, bookManager, this);
                 booksContainer.getChildren().add(bookItem);
             }
 

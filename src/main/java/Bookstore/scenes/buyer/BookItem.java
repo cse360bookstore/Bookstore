@@ -28,10 +28,12 @@ public class BookItem {
     private BookWithUser book;
     private BookManager bookManager;
     private static Set<Integer> shoppingCart = new HashSet<>();
+    private BuyingProcess buyingProcessController;
 
-    public void setBook(BookWithUser book, BookManager bookManager) {
+    public void setBook(BookWithUser book, BookManager bookManager, BuyingProcess buyingProcessController) {
         this.book = book;
         this.bookManager = bookManager;
+        this.buyingProcessController = buyingProcessController;
 
         titleLabel.setText(book.getTitle());
         authorLabel.setText("Author: " + book.getAuthor());
@@ -52,6 +54,7 @@ public class BookItem {
         }
 
         shoppingCart.add(bookId);
+        buyingProcessController.updateCartItemCount();
 //        AlertHelper.showAlert(Alert.AlertType.INFORMATION, "Success", "Successfully added to your cart.");
         addToCartButton.setDisable(true);
     }
