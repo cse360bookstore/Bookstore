@@ -1,13 +1,18 @@
 package Bookstore.scenes;
 
+import Bookstore.BuyerPage;
+import Bookstore.SellerPage;
 import Bookstore.SqlConnectionPoolFactory;
 import Bookstore.components.AlertHelper;
 import Bookstore.dataManagers.AuthManager;
 import Bookstore.models.UserRole;
 import Bookstore.models.UserSession;
+import Bookstore.scenes.admin.AdminDashboard;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -29,9 +34,14 @@ public class Login {
 
     @FXML
     private PasswordField passwordField;
+    
+    @FXML
+    private ComboBox<String> userRole;
 
-
-
+    public void initialize() {
+        // Example: Adding additional items dynamically
+        userRole.getItems().addAll("Buyer", "Seller", "Admin");
+    }
 
     // Todo: make a form to register users
 /*
@@ -78,42 +88,62 @@ public class Login {
                 System.out.println("Password: " + password);
                 System.out.println("testing get email");
                 user = UserSession.getInstance();
-
+                
                 // todo: load a different main menu depending on roles returned here
                 System.out.println("User Roles: " + user.getUserRole());
 
-                // todo: refactor this to use in forgot password
-                /*
-                String email = authManager.getEmailFromUserName(username);
-                String email2 = user.getEmail();
-                System.out.println("Email from sp: " + email);
-                System.out.println("Email from logging in: " + email2);
-
-                String newpass = "s";
-                boolean loggedin2 = authManager.login(username, newpass);
-
-                if (!loggedin2) {
-                    System.out.println("Logged in didnt work with new pass");
-                }
-
-                boolean updated = authManager.updatePassword(4, newpass);
-
-                // after updating password,
-                if (updated) {
-                    System.out.println("Password updated");
-                    boolean loggedin3 = authManager.login(username, newpass);
-                    if (loggedin3) {
-                        System.out.println("Logged in successfully with the new password");
+                if (loggedin) 
+                {
+                	Stage stage = (Stage) usernameField.getScene().getWindow();
+                    if("Buyer".equals(userRole.getValue()))
+                    {
+                    	try {
+							FXMLLoader fxmlLoader = new FXMLLoader(BuyerPage.class.getResource("/Bookstore/scenes/buyer/BuyingProcess.fxml"));
+							Scene scene = new Scene(fxmlLoader.load(), 800, 1200);
+							stage.setTitle("Buyer Page");
+							stage.setScene(scene);
+							stage.show();
+						} catch (IOException e) {
+							e.printStackTrace();
+							System.err.println("Error loading the Buyer page: " + e.getMessage());
+						}
                     }
-                }
+                    else if("Seller".equals(userRole.getValue()))
+                    {
+                    	try {
+							System.out.println("open seller page");
+							System.out.println("username: " + username);
+							FXMLLoader fxmlLoader = new FXMLLoader(SellerPage.class.getResource("/Bookstore/scenes/seller/SellingProcess.fxml"));
 
-                 */
+							Scene scene = new Scene(fxmlLoader.load(), 800, 1200);
+							stage.setTitle("Seller Page");
+							stage.setScene(scene);
+							stage.show();
+						} catch (IOException e) {
+							e.printStackTrace();
+							System.err.println("Error loading the Seller page: " + e.getMessage());
+						}
+                    }
+                    else if("Admin".equals(userRole.getValue()))
+                    {
+                         try {
+                             AdminDashboard adminDash = new AdminDashboard(username);
+                             Scene scene = new Scene(adminDash.getRoot(), 800, 1200);
+                             stage.setTitle("Admin Page");
+                             stage.setScene(scene);
+                             stage.show();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                                System.err.println("Error loading the Admin page: " + e.getMessage());
+                            }
+                    }
+                 }
 
-                loadMainMenu();
+                
             }
 
         } else {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, "Invalid username or password", "Please enter a valid username/password");
+            AlertHelper.showAlert(Alert.AlertType.ERROR, "Invalid username, password, or user role", "Please enter a valid username/password");
         }
     }
 
