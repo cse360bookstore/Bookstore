@@ -44,7 +44,7 @@
                   <Image url="@../../images/asuLogo/Arizona-State-University-Books-11-15-2024%20(1).png" />
                </image>
             </ImageView>
-            <Hyperlink fx:id="signUpLink" layoutX="133.0" layoutY="349.0" text="Register New Account" />
+            <Hyperlink fx:id="signUpLink" layoutX="133.0" layoutY="349.0" onAction="#goToRegisterPage" text="Register New Account" />
             <ComboBox fx:id="userRole" layoutX="121.0" layoutY="238.0" prefWidth="150.0" promptText="Select User Role" />
          </children>
       </AnchorPane>

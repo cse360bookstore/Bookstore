@@ -144,7 +144,21 @@ public class Login {
         }
     }
 
-
+    @FXML
+    private void goToRegisterPage() {
+    	Stage stage = (Stage) usernameField.getScene().getWindow();
+    	try {
+			FXMLLoader fxmlLoader = new FXMLLoader(BuyerPage.class.getResource("/Bookstore/scenes/login/registerPage.fxml"));
+			Scene scene = new Scene(fxmlLoader.load(), 800, 1200);
+			stage.setTitle("Register Page");
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
     private void loadMainMenu() {
         Stage stage = (Stage) usernameField.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Bookstore/scenes/MainMenu.fxml"));
