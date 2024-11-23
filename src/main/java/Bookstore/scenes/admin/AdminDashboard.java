@@ -124,11 +124,15 @@ public class AdminDashboard{
 			settingsButton.setStyle("-fx-background-color: Maroon");
 			transactionButton.setStyle("-fx-background-color: Gray");
 			statisticsButton.setStyle("-fx-background-color: Gray");
-            try {
-                displayBookForSales();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+
+            anchorPane.getChildren().removeIf(node -> !(node instanceof StackPane)); // keep user info box 
+
+            Settings settingsPage = new Settings();
+            AnchorPane settingsPane = settingsPage.getRoot();
+            AnchorPane.setTopAnchor(settingsPane, 300.0);
+            AnchorPane.setLeftAnchor(settingsPane, 50.0);
+
+            anchorPane.getChildren().add(settingsPane);
         });
 
 
