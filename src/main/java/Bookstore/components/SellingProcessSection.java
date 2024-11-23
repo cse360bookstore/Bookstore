@@ -2,6 +2,7 @@ package Bookstore.components;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -34,5 +35,7 @@ public class SellingProcessSection extends VBox {
     public void setContent(HBox content) {
         sectionContent.getChildren().clear();
         sectionContent.getChildren().addAll(content.getChildren());
+        sectionContent.setSpacing(10);
+        sectionContent.setAlignment(Pos.CENTER);
     }
 }

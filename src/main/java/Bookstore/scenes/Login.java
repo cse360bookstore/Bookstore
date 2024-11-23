@@ -111,10 +111,7 @@ public class Login {
                     else if("Seller".equals(userRole.getValue()))
                     {
                     	try {
-							System.out.println("open seller page");
-							System.out.println("username: " + username);
-							FXMLLoader fxmlLoader = new FXMLLoader(SellerPage.class.getResource("/Bookstore/scenes/seller/SellingProcess.fxml"));
-
+							FXMLLoader fxmlLoader = new FXMLLoader(SellerPage.class.getResource("/Bookstore/scenes/seller/SellerPage.fxml"));
 							Scene scene = new Scene(fxmlLoader.load(), 800, 1200);
 							stage.setTitle("Seller Page");
 							stage.setScene(scene);
