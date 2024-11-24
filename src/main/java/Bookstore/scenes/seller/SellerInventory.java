@@ -41,7 +41,11 @@ public class SellerInventory implements Initializable {
     private TableColumn<BookForSale, String> listedAtColumn;
 
     @FXML
+    private TableColumn<BookForSale, Integer> publishYearColumn;
+
+    @FXML
     private TableColumn<BookForSale, BookForSale.Status> statusColumn;
+
 
 
 
@@ -57,6 +61,7 @@ public class SellerInventory implements Initializable {
         conditionColumn.setCellValueFactory(new PropertyValueFactory<>("bookCondition"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         listedAtColumn.setCellValueFactory(new PropertyValueFactory<>("listedAt"));
+        publishYearColumn.setCellValueFactory(new PropertyValueFactory<>("publishYear"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         try {

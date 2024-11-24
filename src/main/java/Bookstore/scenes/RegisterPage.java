@@ -67,10 +67,7 @@ public class RegisterPage{
 			role = UserRole.BUYER;
 		else if(sellerChoice.isSelected())
 			role = UserRole.SELLER;
-		
-		
-		
-		
+
 		try{
             UserSession user =  authManager.register(username, password, email, firstName, lastName, role);
         }
@@ -87,7 +84,7 @@ public class RegisterPage{
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 	}

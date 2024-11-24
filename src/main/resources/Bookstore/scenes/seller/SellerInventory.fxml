@@ -23,6 +23,7 @@
             <TableColumn fx:id="conditionColumn" text="Condition" prefWidth="100"/>
             <TableColumn fx:id="priceColumn" text="Price"/>
             <TableColumn fx:id="listedAtColumn" text="Listed At" prefWidth="150"/>
+            <TableColumn fx:id="publishYearColumn" text="publishYear" prefWidth="150"/>
             <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
         </columns>
     </TableView>

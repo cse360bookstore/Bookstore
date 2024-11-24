@@ -29,8 +29,6 @@ public class MainMenu {
     // Method to open the Seller Page
     @FXML
     private void openSellerPage(ActionEvent event) throws IOException {
-        System.out.println("open seller page");
-        System.out.println("username: " + username);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(SellerPage.class.getResource("/Bookstore/scenes/seller/SellingProcess.fxml"));
 
