@@ -58,7 +58,6 @@ public class BookManager {
                         String category = rs.getString("category");
                         String bookCondition = rs.getString("BookCondition");
                         String author = rs.getString("author");
-                        String description = rs.getString("description");
                         double price = rs.getDouble("price");
                         String listedAt = rs.getString("listedAt");
                         String listedByUsername = rs.getString("listedByUsername");
@@ -67,7 +66,7 @@ public class BookManager {
                         String listedByLastName = rs.getString("lastName");
 
                         BookWithUser book = new BookWithUser(bookID, title, category, bookCondition, author,
-                                description, price, listedAt, listedByUsername, listedByEmail,
+                                "", price, listedAt, listedByUsername, listedByEmail,
                                 listedByFirstName, listedByLastName);
                         books.add(book);
                     }
