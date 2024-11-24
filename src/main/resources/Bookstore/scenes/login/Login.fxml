@@ -36,7 +36,7 @@
    <right>
       <AnchorPane prefHeight="400.0" prefWidth="464.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="usernameField" layoutX="55.0" layoutY="161.0" prefHeight="25.0" prefWidth="281.0" promptText="Enter ASU Email" />
+            <TextField fx:id="usernameField" layoutX="55.0" layoutY="161.0" prefHeight="25.0" prefWidth="281.0" promptText="Enter Username" />
             <PasswordField fx:id="passwordField" layoutX="56.0" layoutY="200.0" prefHeight="25.0" prefWidth="280.0" promptText="Enter Password" />
             <Button layoutX="173.0" layoutY="292.0" mnemonicParsing="false" onAction="#handleLogin" style="-fx-background-color: #901340;" text="Login" textFill="WHITE" />
             <ImageView fitHeight="115.0" fitWidth="377.0" layoutX="7.0" layoutY="26.0">

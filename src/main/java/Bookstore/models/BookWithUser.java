@@ -6,7 +6,7 @@ public class BookWithUser {
         private String category;
         private String bookCondition;
         private String author;
-        private String description;
+        private int publishYear;
         private double price;
         private String listedAt;
         private String listedByUsername;
@@ -15,14 +15,14 @@ public class BookWithUser {
         private String listedByLastName;
 
         public BookWithUser(int bookID, String title, String category, String bookCondition, String author,
-                    String description, double price, String listedAt, String listedByUsername,
+                    int publishYear, double price, String listedAt, String listedByUsername,
                     String listedByEmail, String listedByFirstName, String listedByLastName) {
             this.bookID = bookID;
             this.title = title;
             this.category = category;
             this.bookCondition = bookCondition;
             this.author = author;
-            this.description = description;
+            this.publishYear = publishYear;
             this.price = price;
             this.listedAt = listedAt;
             this.listedByUsername = listedByUsername;
@@ -51,9 +51,6 @@ public class BookWithUser {
             return author;
         }
 
-        public String getDescription() {
-            return description;
-        }
 
         public double getPrice() {
             return price;
@@ -62,6 +59,8 @@ public class BookWithUser {
         public String getListedAt() {
             return listedAt;
         }
+
+        public int getBookPublishYear() { return publishYear; }
 
         public String getListedByUsername() {
             return listedByUsername;
@@ -93,5 +92,7 @@ public class BookWithUser {
                     ", listedByUsername='" + listedByUsername + '\'' +
                     '}';
         }
-    }
+
+
+}
 

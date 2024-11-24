@@ -8,7 +8,7 @@ public class BookForSale {
     private String category;
     private String bookCondition;
     private String author;
-    private String description;
+    private int publishYear;
     private double price;
     private int listedByUserID;
     private LocalDateTime listedAt;
@@ -20,14 +20,14 @@ public class BookForSale {
     }
 
     public BookForSale(int bookID, String title, String category, String bookCondition,
-                       String author, String description, double price, int listedByUserID,
+                       String author, int publishYear, double price, int listedByUserID,
                        LocalDateTime listedAt, Status status) {
         this.bookID = bookID;
         this.title = title;
         this.category = category;
         this.bookCondition = bookCondition;
         this.author = author;
-        this.description = description;
+        this.publishYear = publishYear;
         this.price = price;
         this.listedByUserID = listedByUserID;
         this.listedAt = listedAt;
@@ -74,12 +74,12 @@ public class BookForSale {
         this.author = author;
     }
 
-    public String getDescription() {
-        return description;
+    public int getPublishYear() {
+        return publishYear;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPublishYear(int publishYear) {
+        this.publishYear = publishYear;
     }
 
     public double getPrice() {
@@ -123,7 +123,7 @@ public class BookForSale {
                 ", category='" + category + '\'' +
                 ", bookCondition='" + bookCondition + '\'' +
                 ", author='" + author + '\'' +
-                ", description='" + description + '\'' +
+                ", description='" + publishYear + '\'' +
                 ", price=" + price +
                 ", listedByUserID=" + listedByUserID +
                 ", listedAt=" + listedAt +

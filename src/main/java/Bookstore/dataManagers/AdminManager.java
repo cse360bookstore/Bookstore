@@ -1,7 +1,6 @@
 package Bookstore.dataManagers;
 
 import Bookstore.models.BookForSale;
-import Bookstore.models.BookWithUser;
 import Bookstore.models.Transaction;
 import Bookstore.models.UserRole;
 import javafx.collections.FXCollections;
@@ -10,8 +9,6 @@ import javafx.collections.ObservableList;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AdminManager {
     private final DataSource dataSource;
@@ -67,13 +64,12 @@ public class AdminManager {
     }
 
     public BookForSale updateBook(BookForSale book) throws SQLException {
-        System.out.println(book);
         String updateBookQuery = "UPDATE BooksForSale SET "
                 + "title = ?, "
                 + "category = ?, "
                 + "BookCondition = ?, "
                 + "author = ?, "
-                + "description = ?, "
+                + "PublishYear = ?, "
                 + "price = ?, "
                 + "listedByUserID = ?, "
                 + "listedAt = ?, "
@@ -87,7 +83,7 @@ public class AdminManager {
             query.setString(2, book.getCategory());
             query.setString(3, book.getBookCondition());
             query.setString(4, book.getAuthor());
-            query.setString(5, book.getDescription());
+            query.setInt(5, book.getPublishYear());
             query.setDouble(6, book.getPrice());
             query.setInt(7, book.getListedByUserID());
             query.setTimestamp(8, java.sql.Timestamp.valueOf(book.getListedAt()));
@@ -120,7 +116,7 @@ public class AdminManager {
                 String category = resultSet.getString("category");
                 String bookCondition = resultSet.getString("BookCondition");
                 String author = resultSet.getString("author");
-                String description = resultSet.getString("description");
+                int publishYear = resultSet.getInt("PublishYear");
                 double price = resultSet.getDouble("price");
                 int listedByUserID = resultSet.getInt("listedByUserID");
                 Timestamp listedAtTimestamp = resultSet.getTimestamp("listedAt");
@@ -133,7 +129,7 @@ public class AdminManager {
                         category,
                         bookCondition,
                         author,
-                        description,
+                        publishYear,
                         price,
                         listedByUserID,
                         listedAt,

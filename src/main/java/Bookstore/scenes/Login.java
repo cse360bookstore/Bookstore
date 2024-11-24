@@ -43,31 +43,7 @@ public class Login {
         userRole.getItems().addAll("Buyer", "Seller", "Admin");
     }
 
-    // Todo: make a form to register users
-/*
-    public boolean registertest() {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-        String email = "email_3";
-        String firstname = "new_user";
-        String lastname = "new_user";
-        try{
-            UserSession user =  authManager.register(username, password, email, firstname, lastname, UserRole.BUYER_SELLER_ADMIN);
-        }
-        catch (RuntimeException e){
-            e.printStackTrace();
-            AlertHelper.showAlert(Alert.AlertType.ERROR, "Error Registering user", e.getMessage());
 
-        }
-
-        if (user != null) {
-            return true;
-        }
-        return false;
-
-    }
-
-*/
     
     @FXML
     private void handleLogin() {
@@ -75,22 +51,13 @@ public class Login {
         password = passwordField.getText();
 
         if (!username.isEmpty() && !password.isEmpty()) {
-            // todo: only load page person selects and is validated for
-           // boolean loggedin  = registertest();
 
             boolean loggedin = authManager.login(username, password);
 
 
 
             if (loggedin) {
-                System.out.println("Logged in successfully");
-                System.out.println("Username: " + username);
-                System.out.println("Password: " + password);
-                System.out.println("testing get email");
                 user = UserSession.getInstance();
-                
-                // todo: load a different main menu depending on roles returned here
-                System.out.println("User Roles: " + user.getUserRole());
 
                 if (loggedin) 
                 {
@@ -154,7 +121,7 @@ public class Login {
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
     }

@@ -29,6 +29,8 @@ public class BookItem {
     @FXML
     private Label genreLabel;
     @FXML
+    private Label publishYearLabel;
+    @FXML
     private Label conditionLabel;
 
     private BookWithUser book;
@@ -46,6 +48,7 @@ public class BookItem {
         priceLabel.setText(String.format("Price: $%.2f", book.getPrice()));
         genreLabel.setText("Genre: " + book.getCategory());
         conditionLabel.setText("Condition: " + book.getBookCondition());
+        publishYearLabel.setText("Published: " + book.getBookPublishYear());
 
         addToCartButton.setOnAction(event -> handleAddToCartAction());
         removeFromCartButton.setOnAction(event -> handleRemoveFromCartAction());

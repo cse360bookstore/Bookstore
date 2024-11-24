@@ -63,6 +63,11 @@ public class BookForSaleView {
         listedDateColumn.setMinWidth(150);
         listedDateColumn.setCellValueFactory(new PropertyValueFactory<>("listedAt"));
 
+        // Publish year column
+        TableColumn<BookForSale, Integer> publishYearColumn = new TableColumn<>("Publish Year");
+        publishYearColumn.setMinWidth(150);
+        publishYearColumn.setCellValueFactory(new PropertyValueFactory<>("publishYear"));
+
         // Status Column
         TableColumn<BookForSale, BookForSale.Status> statusColumn = new TableColumn<>("Status");
         statusColumn.setMinWidth(100);
@@ -103,6 +108,7 @@ public class BookForSaleView {
                 conditionColumn,
                 authorColumn,
                 priceColumn,
+                publishYearColumn,
                 listedDateColumn,
                 statusColumn,
                 updateButtonColumn
@@ -133,8 +139,8 @@ public class BookForSaleView {
         TextField authorField = new TextField(book.getAuthor());
         authorField.setPromptText("Author");
 
-        TextArea descriptionArea = new TextArea(book.getDescription());
-        descriptionArea.setPromptText("Description");
+        TextField publishYearField = new TextField(String.valueOf(book.getPublishYear()));
+        publishYearField.setPromptText("Enter Publish Year");
 
         TextField priceField = new TextField(String.valueOf(book.getPrice()));
         priceField.setPromptText("Price");
@@ -145,9 +151,8 @@ public class BookForSaleView {
             book.setCategory(categoryField.getText());
             book.setBookCondition(conditionField.getText());
             book.setAuthor(authorField.getText());
-            book.setDescription(descriptionArea.getText());
+            book.setPublishYear(Integer.parseInt(publishYearField.getText()));
             book.setPrice(Double.parseDouble(priceField.getText()));
-            System.out.println("Status of book in submit" + book.getStatus());
 
             try {
                 adminManager.updateBook(book);
@@ -163,7 +168,7 @@ public class BookForSaleView {
                 new Label("Category:"), categoryField,
                 new Label("Condition:"), conditionField,
                 new Label("Author:"), authorField,
-                new Label("Description:"), descriptionArea,
+                new Label("Publish Year"), publishYearField,
                 new Label("Price:"), priceField,
                 submitButton
         );

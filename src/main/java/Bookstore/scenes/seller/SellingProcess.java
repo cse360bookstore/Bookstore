@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Array;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -274,9 +275,9 @@ public class SellingProcess implements Initializable {
         TextField titleInput = new TextField();
         titleInput.setPromptText("Enter book title");
 
-        Label descriptionLabel = new Label("Description:");
-        TextField descriptionInput = new TextField();
-        descriptionInput.setPromptText("Enter book description");
+        Label descriptionLabel = new Label("Publish Year");
+        TextField publishYearInput = new TextField();
+        publishYearInput.setPromptText("Enter book publish year");
 
         Label authorLabel = new Label("Author:");
         TextField authorInput = new TextField();
@@ -285,7 +286,7 @@ public class SellingProcess implements Initializable {
         container.add(titleLabel, 0, 0);
         container.add(titleInput, 1, 0);
         container.add(descriptionLabel, 0, 1);
-        container.add(descriptionInput, 1, 1);
+        container.add(publishYearInput, 1, 1);
         container.add(authorLabel, 0, 2);
         container.add(authorInput, 1, 2);
 
@@ -304,14 +305,26 @@ public class SellingProcess implements Initializable {
                 selectedTitle = title;
             }
 
-            String description = descriptionInput.getText().trim();
-            if (description.isEmpty()) {
-                valid = false;
-                errorMessage.append("- Description cannot be empty.\n");
-            } else {
-                selectedDescription = description;
-            }
+            String publishYear = publishYearInput.getText().trim();
 
+            if (publishYear.isEmpty()) {
+                valid = false;
+                errorMessage.append("- Publish Year cannot be empty.\n");
+            } else {
+                try {
+                    int publishYearInt = Integer.parseInt(publishYear);
+                    int currentYear = LocalDateTime.now().getYear();
+                    if (publishYearInt < 0 || publishYearInt > currentYear) {
+                        errorMessage.append("- Publish Year must be a valid year between 0 and ").append(currentYear).append(".\n");
+                        valid = false;
+                    } else {
+                        selectedDescription = publishYear;
+                    }
+                } catch (NumberFormatException ex) {
+                    errorMessage.append("- Publish Year must be a numeric value (e.g., 2023).\n");
+                    valid = false;
+                }
+            }
             String author = authorInput.getText().trim();
             if (author.isEmpty()) {
                 valid = false;

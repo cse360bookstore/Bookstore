@@ -58,6 +58,7 @@ public class BookManager {
                         String category = rs.getString("category");
                         String bookCondition = rs.getString("BookCondition");
                         String author = rs.getString("author");
+                        int publishYear = rs.getInt("PublishYear");
                         double price = rs.getDouble("price");
                         String listedAt = rs.getString("listedAt");
                         String listedByUsername = rs.getString("listedByUsername");
@@ -66,7 +67,7 @@ public class BookManager {
                         String listedByLastName = rs.getString("lastName");
 
                         BookWithUser book = new BookWithUser(bookID, title, category, bookCondition, author,
-                                "", price, listedAt, listedByUsername, listedByEmail,
+                                publishYear, price, listedAt, listedByUsername, listedByEmail,
                                 listedByFirstName, listedByLastName);
                         books.add(book);
                     }
@@ -125,11 +126,11 @@ public class BookManager {
             String category = rs.getString("category");
             String bookCondition = rs.getString("BookCondition");
             String author = rs.getString("author");
-            String description = rs.getString("description");
+            int publishYear = rs.getInt("PublishYear");
             double price = rs.getDouble("price");
             String listedAt = rs.getString("listedAt");
             String listedByUsername = rs.getString("listedByUserID");
-            return new BookWithUser(id, title, category, bookCondition, author, description, price,
+            return new BookWithUser(id, title, category, bookCondition, author, publishYear, price,
                     listedAt, listedByUsername, "", "", "");
 
         } catch (SQLException e) {
@@ -158,7 +159,7 @@ public class BookManager {
                         String category = rs.getString("category");
                         String bookCondition = rs.getString("BookCondition");
                         String author = rs.getString("author");
-                        String description = rs.getString("description");
+                        int publishYear = rs.getInt("PublishYear");
                         double price = rs.getDouble("price");
                         BookForSale.Status status = BookForSale.Status.valueOf(rs.getString("Status"));
                         Timestamp listedAtTimestamp = rs.getTimestamp("listedAt");
@@ -173,7 +174,7 @@ public class BookManager {
                                 category,
                                 bookCondition,
                                 author,
-                                description,
+                                publishYear,
                                 price,
                                 sellerID,
                                 listedAt,
