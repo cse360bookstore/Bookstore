@@ -5,6 +5,7 @@ import Bookstore.components.AlertHelper;
 import Bookstore.dataManagers.BookManager;
 import Bookstore.models.BookWithUser;
 import Bookstore.models.UserSession;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.Set;
 import javafx.event.ActionEvent;
 
@@ -46,10 +48,13 @@ public class BuyingProcess {
     @FXML
     private CheckBox heavilyUsedConditionButton;
     @FXML
+    private ComboBox<String> sortComboBox;
+
     private String selectedGenre = "All";
     private String selectedCondition = "All";
     private String sortBy = "Date Listed";
     private BookManager bookManager;
+
 
     @FXML
     public void initialize() {
@@ -65,6 +70,9 @@ public class BuyingProcess {
         usedLikeNewConditionButton.selectedProperty().addListener((obs, wasSelected, isSelected) -> loadBooks());
         moderatelyUsedConditionButton.selectedProperty().addListener((obs, wasSelected, isSelected) -> loadBooks());
         heavilyUsedConditionButton.selectedProperty().addListener((obs, wasSelected, isSelected) -> loadBooks());
+
+        sortComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> loadBooks());
+        sortComboBox.getSelectionModel().selectFirst();
 
         loadBooks();
         checkoutButton.setOnAction((event -> handleCheckoutAction()));
@@ -98,6 +106,7 @@ public class BuyingProcess {
                 }
                 return genreMatch;
             });
+            filteredBooks = FXCollections.observableArrayList(filteredBooks);
 
             filteredBooks = filteredBooks.filtered(book -> {
                 boolean conditionMatch = false;
@@ -112,9 +121,26 @@ public class BuyingProcess {
             });
 
             filteredBooks = FXCollections.observableArrayList(filteredBooks);
+            String selectedSort = sortComboBox.getSelectionModel().getSelectedItem();
+            Comparator<BookWithUser> comparator = null;
+
+            if ("Price (Low to High)".equals(selectedSort)) {
+                comparator = Comparator.comparingDouble(BookWithUser::getPrice);
+            } else if ("Price (High to Low)".equals(selectedSort)) {
+                comparator = Comparator.comparingDouble(BookWithUser::getPrice).reversed();
+            } else if ("Date Listed (Newest First)".equals(selectedSort)) {
+                comparator = Comparator.comparing(BookWithUser::getListedAt).reversed();
+            } else if ("Date Listed (Oldest First)".equals(selectedSort)) {
+                comparator = Comparator.comparing(BookWithUser::getListedAt);
+            } else if ("Title (A to Z)".equals(selectedSort)) {
+                comparator = Comparator.comparing(BookWithUser::getTitle, String.CASE_INSENSITIVE_ORDER);
+            } else if ("Title (Z to A)".equals(selectedSort)) {
+                comparator = Comparator.comparing(BookWithUser::getTitle, String.CASE_INSENSITIVE_ORDER).reversed();
             }
 
-            for (BookWithUser book : bookList) {
+            System.out.println(comparator);
+            FXCollections.sort(filteredBooks, comparator);
+
             booksContainer.getChildren().clear();
             for (BookWithUser book : filteredBooks) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Bookstore/scenes/buyer/BookItem.fxml"));
