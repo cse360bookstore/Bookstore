@@ -89,35 +89,36 @@ public class BuyingProcess {
     private void loadBooks() {
         try {
             ObservableList<BookWithUser> bookList = bookManager.getAllBooksForSale();
+            if (bookList.isEmpty()) {
+                AlertHelper.showAlert(Alert.AlertType.ERROR, "No Books Found", "There are currently no books available for purchase. Try widening your filters.");
+            }
             ObservableList<BookWithUser> filteredBooks = FXCollections.observableArrayList(bookList);
 
             filteredBooks = filteredBooks.filtered(book -> {
-                boolean genreMatch = false;
                 if (naturalScienceButton.isSelected() && book.getCategory().equalsIgnoreCase("Natural Science")) {
-                    genreMatch = true;
+                    return true;
                 } else if (computerScienceButton.isSelected() && book.getCategory().equalsIgnoreCase("Computer Science")) {
-                    genreMatch = true;
+                    return true;
                 } else if (englishLanguageButton.isSelected() && book.getCategory().equalsIgnoreCase("English Language")) {
-                    genreMatch = true;
+                    return true;
                 } else if (scienceButton.isSelected() && book.getCategory().equalsIgnoreCase("Science")) {
-                    genreMatch = true;
+                    return true;
                 } else if (otherButton.isSelected() && book.getCategory().equalsIgnoreCase("Other")) {
-                    genreMatch = true;
+                    return true;
                 }
-                return genreMatch;
+                return false;
             });
             filteredBooks = FXCollections.observableArrayList(filteredBooks);
 
             filteredBooks = filteredBooks.filtered(book -> {
-                boolean conditionMatch = false;
                 if (usedLikeNewConditionButton.isSelected() && book.getBookCondition().equalsIgnoreCase("Used Like New")) {
-                    conditionMatch = true;
+                    return true;
                 } else if (moderatelyUsedConditionButton.isSelected() && book.getBookCondition().equalsIgnoreCase("Moderately Used")) {
-                    conditionMatch = true;
+                    return true;
                 } else if (heavilyUsedConditionButton.isSelected() && book.getBookCondition().equalsIgnoreCase("Heavily Used")) {
-                    conditionMatch = true;
+                    return true;
                 }
-                return conditionMatch;
+                return false;
             });
 
             filteredBooks = FXCollections.observableArrayList(filteredBooks);
