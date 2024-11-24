@@ -122,6 +122,7 @@ public class BuyingProcess {
             });
 
             filteredBooks = FXCollections.observableArrayList(filteredBooks);
+            updateGenreCounts(filteredBooks);
             String selectedSort = sortComboBox.getSelectionModel().getSelectedItem();
             Comparator<BookWithUser> comparator = null;
 
@@ -214,6 +215,40 @@ public class BuyingProcess {
         loadBooks();
     }
 
+
+    private void updateGenreCounts(ObservableList<BookWithUser> bookList) {
+        int natural_science_count = 0;
+        int computer_science_count = 0;
+        int english_language_count = 0;
+        int science_count = 0;
+        int other_count = 0;
+
+        for (BookWithUser book : bookList) {
+            String category = book.getCategory();
+            if (category.equals("Natural Science")) {
+                natural_science_count += 1;
+            }
+            else if (category.equals("Computer Science")) {
+                computer_science_count += 1;
+            }
+            else if (category.equals("English Language")) {
+                english_language_count += 1;
+            }
+            else if (category.equals("Science")) {
+                science_count += 1;
+            }
+            else {
+                other_count += 1;
+            }
+        }
+
+        // Update the text of each checkbox to include the counts
+        naturalScienceButton.setText("Natural Science (" + natural_science_count + ")");
+        computerScienceButton.setText("Computer Science (" + computer_science_count + ")");
+        englishLanguageButton.setText("English Language (" + english_language_count + ")");
+        scienceButton.setText("Science (" + science_count + ")");
+        otherButton.setText("Other (" + other_count + ")");
+    }
 
     @FXML
     private void handleRefreshAction() {
