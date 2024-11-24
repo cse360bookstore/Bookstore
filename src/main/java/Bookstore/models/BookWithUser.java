@@ -60,6 +60,8 @@ public class BookWithUser {
             return listedAt;
         }
 
+        public int getBookPublishYear() { return publishYear; }
+
         public String getListedByUsername() {
             return listedByUsername;
         }
@@ -90,5 +92,7 @@ public class BookWithUser {
                     ", listedByUsername='" + listedByUsername + '\'' +
                     '}';
         }
-    }
+
+
+}
 

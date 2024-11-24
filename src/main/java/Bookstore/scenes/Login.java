@@ -57,10 +57,6 @@ public class Login {
 
 
             if (loggedin) {
-                System.out.println("Logged in successfully");
-                System.out.println("Username: " + username);
-                System.out.println("Password: " + password);
-                System.out.println("testing get email");
                 user = UserSession.getInstance();
 
                 if (loggedin) 
