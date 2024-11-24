@@ -26,6 +26,10 @@ public class BookItem {
     private Button addToCartButton;
     @FXML
     private Button removeFromCartButton;
+    @FXML
+    private Label genreLabel;
+    @FXML
+    private Label conditionLabel;
 
     private BookWithUser book;
     private BookManager bookManager;
@@ -40,6 +44,8 @@ public class BookItem {
         titleLabel.setText(book.getTitle());
         authorLabel.setText("Author: " + book.getAuthor());
         priceLabel.setText(String.format("Price: $%.2f", book.getPrice()));
+        genreLabel.setText("Genre: " + book.getCategory());
+        conditionLabel.setText("Condition: " + book.getBookCondition());
 
         addToCartButton.setOnAction(event -> handleAddToCartAction());
         removeFromCartButton.setOnAction(event -> handleRemoveFromCartAction());

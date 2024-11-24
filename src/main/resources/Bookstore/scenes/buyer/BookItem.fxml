@@ -14,6 +14,10 @@
 
    <Label fx:id="authorLabel">author</Label>
 
+    <Label fx:id="genreLabel">genre</Label>
+
+    <Label fx:id="conditionLabel">condition</Label>
+
     <Label fx:id = "priceLabel">price</Label>
 
    <Button fx:id="addToCartButton" text="Add to Cart"> </Button>
